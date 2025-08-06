@@ -1,23 +1,42 @@
 import React from 'react';
 import Navbar from './Navbar';
 
-const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const backgroundStyle = {
-    backgroundImage: `url(https://res.cloudinary.com/dogq9gvo8/image/upload/v1754394299/20250728_1415_Indian_Subcontinent_Trees_remix_01k1835p9df9a9pvr4h1dtftz4_xdzp1e.png)`,
+const Layout: React.FC<{ children: React.ReactNode; bgImage?: string | null }> = ({ 
+  children, 
+  bgImage = 'https://res.cloudinary.com/dogq9gvo8/image/upload/v1754394299/20250728_1415_Indian_Subcontinent_Trees_remix_01k1835p9df9a9pvr4h1dtftz4_xdzp1e.png' 
+}) => {
+  const backgroundStyle = bgImage ? {
+    backgroundImage: `url(${bgImage})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    backgroundAttachment: 'fixed', // This makes the background stay fixed while scrolling
+    backgroundAttachment: 'fixed',
     backgroundRepeat: 'no-repeat',
-  };
+  } : {};
 
   return (
     <div className="w-full min-h-screen relative overflow-hidden">
-      {/* Background Overlay */}
-      <div className="absolute inset-0 -z-10" style={backgroundStyle}>
-        <div className="absolute inset-0 bg-black/20 dark:bg-black/40"></div>
-      </div>
+      {/* Background with Shadow Effects */}
+      {bgImage && (
+        <div className="absolute inset-0 -z-10" style={backgroundStyle}>
+          {/* Multiple shadow layers for depth */}
+          <div className="absolute inset-0 bg-black/20 dark:bg-black/40"></div>
+          
+          {/* Inner shadow for depth */}
+          <div className="absolute inset-0 shadow-inner shadow-black/30"></div>
+          
+          {/* Subtle vignette effect */}
+          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/20"></div>
+          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-black/15"></div>
+          
+          {/* Subtle top shadow */}
+          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/10 to-transparent"></div>
+          
+          {/* Subtle bottom shadow */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/15 to-transparent"></div>
+        </div>
+      )}
 
-      {/* Main Content Container - This will scroll */}
+      {/* Main Content Container */}
       <div className="relative z-10 w-full min-h-screen">
         {/* Navbar */}
         <Navbar />
