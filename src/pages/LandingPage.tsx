@@ -1,5 +1,167 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Layout from '../components/Layout';
+import { motion, AnimatePresence } from 'framer-motion';
+
+type ValueItem = {
+  title: string;
+  description: string;
+  icon: string;
+  image: string;
+};
+
+const AnimatedValueCard = () => {
+  const [active, setActive] = useState(0);
+
+  const values: ValueItem[] = [
+    {
+      title: "Excellence",
+      description: "We strive for excellence in all our endeavors, pushing boundaries and setting high standards for academic and personal growth.",
+      icon: "🏆",
+      image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754390919/1000073005-modified_a0ou2c.png"
+    },
+    {
+      title: "Inclusivity", 
+      description: "We celebrate diversity and create an environment where everyone feels welcome, valued, and empowered to contribute.",
+      icon: "🤝",
+      image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754487754/20250728_1547_Group_Beach_Gathering_remix_01k188e475eezvtpq51c33z8c3-2_w85umz.png"
+    },
+    {
+      title: "Innovation",
+      description: "We encourage creative thinking and novel approaches to challenges, fostering a culture of continuous learning.",
+      icon: "💡",
+      image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754394299/20250728_1415_Indian_Subcontinent_Trees_remix_01k1835p9df9a9pvr4h1dtftz4_xdzp1e.png"
+    },
+    {
+      title: "Community",
+      description: "We build strong bonds through shared experiences, mutual support, and collaborative endeavors that last a lifetime.",
+      icon: "🌟",
+      image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754390919/1000073005-modified_a0ou2c.png"
+    }
+  ];
+
+  const handleNext = () => {
+    setActive((prev) => (prev + 1) % values.length);
+  };
+
+  const handlePrev = () => {
+    setActive((prev) => (prev - 1 + values.length) % values.length);
+  };
+
+  const isActive = (index: number) => {
+    return index === active;
+  };
+
+  // Auto-play functionality
+  useEffect(() => {
+    const interval = setInterval(handleNext, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const randomRotateY = () => {
+    return Math.floor(Math.random() * 21) - 10;
+  };
+
+  return (
+    <div className="flex flex-col items-center">
+      {/* Free-floating Image Stack - No background, larger size */}
+      <div className="relative h-96 w-full max-w-lg mb-8">
+        <AnimatePresence>
+          {values.map((value, index) => (
+            <motion.div
+              key={`${value.title}-${index}`}
+              initial={{
+                opacity: 0,
+                scale: 0.9,
+                z: -100,
+                rotate: randomRotateY(),
+              }}
+              animate={{
+                opacity: isActive(index) ? 1 : 0.85,
+                scale: isActive(index) ? 1 : 0.95,
+                z: isActive(index) ? 0 : -100,
+                rotate: isActive(index) ? 0 : randomRotateY(),
+                zIndex: isActive(index) ? 40 : values.length + 2 - index,
+                y: isActive(index) ? [0, -20, 0] : 0,
+              }}
+              exit={{
+                opacity: 0,
+                scale: 0.9,
+                z: 100,
+                rotate: randomRotateY(),
+              }}
+              transition={{
+                duration: 0.4,
+                ease: "easeInOut",
+              }}
+              className="absolute inset-0 origin-bottom"
+            >
+              {/* Removed background container, just the image */}
+              <div className="h-full w-full rounded-3xl overflow-hidden shadow-2xl shadow-black/60">
+                <div 
+                  className="h-full w-full bg-cover bg-center"
+                  style={{ 
+                    backgroundImage: `url(${value.image})`,
+                  }}
+                />
+                {/* Reduced gradient overlay for better image visibility */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+
+      {/* Navigation Controls */}
+      <div className="flex items-center justify-between w-full max-w-lg">
+        <div className="flex gap-4">
+          <button
+            onClick={handlePrev}
+            className="group/button flex h-12 w-12 items-center justify-center rounded-full bg-black/60 backdrop-blur-md border border-white/30 hover:bg-black/80 hover:border-purple-400 transition-all duration-200 shadow-lg"
+          >
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="h-6 w-6 text-white transition-transform duration-300 group-hover/button:-translate-x-1" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            onClick={handleNext}
+            className="group/button flex h-12 w-12 items-center justify-center rounded-full bg-black/60 backdrop-blur-md border border-white/30 hover:bg-black/80 hover:border-purple-400 transition-all duration-200 shadow-lg"
+          >
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="h-6 w-6 text-white transition-transform duration-300 group-hover/button:translate-x-1" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Progress Indicators */}
+        <div className="flex gap-3">
+          {values.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setActive(index)}
+              className={`h-3 rounded-full transition-all duration-300 ${
+                isActive(index) 
+                  ? 'w-10 bg-purple-500 shadow-lg shadow-purple-500/50' 
+                  : 'w-3 bg-white/40 hover:bg-white/60 hover:w-6'
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 function LandingPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -245,125 +407,57 @@ function LandingPage() {
                     Our mission is to cultivate an inclusive environment that fosters academic excellence, personal development, and lifelong friendships among our residents.
                   </p>
                   
-                  <div className="mt-8 flex flex-wrap gap-4">
-                    <div className="bg-black/40 backdrop-blur-xl p-4 rounded-xl border border-white/10 flex items-center gap-3">
-                      <div className="w-12 h-12 bg-purple-600/50 rounded-full flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+                  <div className="mt-8 flex justify-center lg:justify-start">
+                    <a 
+                      href="/about" 
+                      className="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-600 text-white rounded-full hover:from-purple-500 hover:via-purple-600 hover:to-indigo-500 transition-all duration-300 shadow-xl shadow-purple-600/30 hover:shadow-2xl hover:shadow-purple-500/40 text-lg font-semibold transform hover:scale-105 active:scale-95"
+                    >
+                      {/* Animated background overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      
+                      {/* Shimmer effect */}
+                      <div className="absolute inset-0 -top-2 -left-2 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 w-0 group-hover:w-full transition-all duration-700"></div>
+                      
+                      {/* Button content */}
+                      <span className="relative z-10 flex items-center gap-3">
+                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-100 group-hover:from-white group-hover:to-cyan-100 transition-all duration-300">
+                          Know More
+                        </span>
+                        
+                        {/* Animated arrow */}
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          className="h-5 w-5 text-white transition-all duration-300 group-hover:translate-x-1 group-hover:text-cyan-200" 
+                          fill="none" 
+                          viewBox="0 0 24 24" 
+                          stroke="currentColor"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>
+                      </span>
+                      
+                      {/* Floating particles effect */}
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <div className="absolute top-1 left-4 w-1 h-1 bg-cyan-300 rounded-full animate-ping"></div>
+                        <div className="absolute top-3 right-6 w-1 h-1 bg-pink-300 rounded-full animate-ping" style={{ animationDelay: '0.2s' }}></div>
+                        <div className="absolute bottom-2 left-8 w-1 h-1 bg-purple-300 rounded-full animate-ping" style={{ animationDelay: '0.4s' }}></div>
+                        <div className="absolute bottom-1 right-4 w-1 h-1 bg-indigo-300 rounded-full animate-ping" style={{ animationDelay: '0.6s' }}></div>
                       </div>
-                      <span className="text-white font-display font-semibold">Diverse Community</span>
-                    </div>
-                    
-                    <div className="bg-black/40 backdrop-blur-xl p-4 rounded-xl border border-white/10 flex items-center gap-3">
-                      <div className="w-12 h-12 bg-purple-600/50 rounded-full flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                        </svg>
-                      </div>
-                      <span className="text-white font-display font-semibold">Innovation Hub</span>
-                    </div>
-                    
-                    <div className="bg-black/40 backdrop-blur-xl p-4 rounded-xl border border-white/10 flex items-center gap-3">
-                      <div className="w-12 h-12 bg-purple-600/50 rounded-full flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                        </svg>
-                      </div>
-                      <span className="text-white font-display font-semibold">Community Support</span>
-                    </div>
+                      
+                      {/* Border glow effect */}
+                      <div className="absolute inset-0 rounded-full border-2 border-transparent bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
+                    </a>
                   </div>
                 </div>
                 
-                {/* Right content - glass card */}
-                <div className="bg-black/30 backdrop-blur-xl rounded-3xl overflow-hidden shadow-xl shadow-black/40 border border-white/10 p-8">
-                  <h3 className="font-display text-2xl font-bold text-white mb-6">Our Core Values</h3>
-                  
-                  <ul className="space-y-6">
-                    <li className="flex items-start gap-4">
-                      <div className="mt-1 text-purple-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                      </div>
-                      <div>
-                        <h4 className="text-white font-display font-semibold text-lg mb-1">Excellence</h4>
-                        <p className="text-white/70 text-sm leading-relaxed">We strive for excellence in all our endeavors, pushing boundaries and setting high standards.</p>
-                      </div>
-                    </li>
-                    
-                    <li className="flex items-start gap-4">
-                      <div className="mt-1 text-purple-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                      </div>
-                      <div>
-                        <h4 className="text-white font-display font-semibold text-lg mb-1">Inclusivity</h4>
-                        <p className="text-white/70 text-sm leading-relaxed">We celebrate diversity and create an environment where everyone feels welcome and valued.</p>
-                      </div>
-                    </li>
-                    
-                    <li className="flex items-start gap-4">
-                      <div className="mt-1 text-purple-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                      </div>
-                      <div>
-                        <h4 className="text-white font-display font-semibold text-lg mb-1">Innovation</h4>
-                        <p className="text-white/70 text-sm leading-relaxed">We encourage creative thinking and novel approaches to challenges and opportunities.</p>
-                      </div>
-                    </li>
-                    
-                    <li className="flex items-start gap-4">
-                      <div className="mt-1 text-purple-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                      </div>
-                      <div>
-                        <h4 className="text-white font-display font-semibold text-lg mb-1">Responsibility</h4>
-                        <p className="text-white/70 text-sm leading-relaxed">We take ownership of our actions and contribute positively to our community and environment.</p>
-                      </div>
-                    </li>
-                  </ul>
-                  
-                  <button className="mt-8 px-6 py-3 bg-purple-600/70 text-white rounded-full hover:bg-purple-600 transition-colors shadow-md shadow-purple-600/30 border border-purple-500/50 text-lg">
-                    Learn More About Us
-                  </button>
+                {/* Right content - Just the animated image stack */}
+                <div className="flex flex-col justify-center">
+                  <AnimatedValueCard />
                 </div>
               </div>
             </div>
             
-            {/* Feature Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto animate-fadeInUp"
-                style={{ animationDelay: '0.5s' }}>
-              
-              <div className="bg-black/50 backdrop-blur-md p-8 rounded-3xl shadow-lg border border-white/10 transition-all hover:border-purple-500/30 hover:shadow-purple-500/20 duration-300">
-                <h2 className="font-display text-2xl font-bold text-white mb-4">
-                  Discover Resources
-                </h2>
-                <p className="font-sans text-white/80 text-lg leading-relaxed">
-                  Access a curated collection of tools, guides, and materials to enhance your learning experience.
-                </p>
-                <button className="mt-6 px-6 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-500 transition-colors shadow-lg shadow-purple-600/30">
-                  Explore
-                </button>
-              </div>
-              
-              <div className="bg-black/50 backdrop-blur-md p-8 rounded-3xl shadow-lg border border-white/10 transition-all hover:border-purple-500/30 hover:shadow-purple-500/20 duration-300">
-                <h2 className="font-display text-2xl font-bold text-white mb-4">
-                  Join the Community
-                </h2>
-                <p className="font-sans text-white/80 text-lg leading-relaxed">
-                  Connect with fellow members, participate in events, and be part of our vibrant ecosystem.
-                </p>
-                <button className="mt-6 px-6 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-500 transition-colors shadow-lg shadow-purple-600/30">
-                  Get Started
-                </button>
-              </div>
-            </div>
+            
           </div>
         </div>
       </div>

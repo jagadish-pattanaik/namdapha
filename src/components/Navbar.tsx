@@ -5,29 +5,61 @@ import { Link } from 'react-router-dom';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
-  // Effect to handle scroll position
+  // Effect to handle scroll position and visibility
   useEffect(() => {
     const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
       // Check if page is scrolled more than 20px
-      if (window.scrollY > 20) {
-        setIsScrolled(true);
+      setIsScrolled(currentScrollY > 20);
+
+      // Always show navbar if at top
+      if (currentScrollY <= 50) {
+        setIsVisible(true);
       } else {
-        setIsScrolled(false);
+        // For scrolled positions, check direction
+        if (currentScrollY < lastScrollY) {
+          // Scrolling up - show navbar
+          setIsVisible(true);
+        } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          // Scrolling down and past 100px - hide navbar
+          setIsVisible(false);
+          // Close mobile menu if open when hiding
+          if (isOpen) {
+            setIsOpen(false);
+          }
+        }
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    // Throttle scroll events for better performance
+    let ticking = false;
+    const throttledHandleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
     // Add scroll event listener
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', throttledHandleScroll, { passive: true });
     
-    // Initial check in case page is loaded scrolled down
+    // Initial check
     handleScroll();
 
     // Cleanup
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', throttledHandleScroll);
     };
-  }, []);
+  }, [lastScrollY, isOpen]);
 
   // Prevent background scrolling when menu is open
   useEffect(() => {
@@ -46,16 +78,18 @@ const Navbar = () => {
     <>
       {/* Main Navbar */}
       <div 
-        className={`w-full flex justify-center ${
+        className={`w-full flex justify-center transition-all duration-500 ease-out ${
           isScrolled 
-            ? 'fixed top-0 left-0 z-50 px-4 py-2 transition-all duration-300' 
-            : 'mt-4 px-4 transition-all duration-300'
+            ? `fixed top-0 left-0 z-[100] px-4 py-2 ${
+                isVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+              }` 
+            : 'mt-4 px-4 relative'
         }`}
       >
         <div 
           className={`backdrop-blur-md text-white rounded-3xl px-4 sm:px-8 w-full max-w-6xl flex justify-between items-center border border-white/30 relative transition-all duration-300 ${
             isScrolled 
-              ? 'h-16 bg-black/70 shadow-lg shadow-black/30' 
+              ? 'h-16 bg-black/90 shadow-xl shadow-black/50' 
               : 'h-24 bg-black/40'
           }`}
         >
@@ -143,7 +177,6 @@ const Navbar = () => {
             className="absolute top-20 left-4 right-4 bg-black/90 backdrop-blur-lg rounded-2xl px-6 py-8 flex flex-col items-center space-y-6 shadow-xl shadow-black/50 border border-white/10"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Added Home button at the top */}
             <Link 
               to="/home" 
               className="text-white hover:text-purple-400 transition-all duration-200 hover:translate-x-1 text-lg flex items-center" 
@@ -155,7 +188,6 @@ const Navbar = () => {
               Home
             </Link>
             
-            {/* Divider line */}
             <div className="w-2/3 h-px bg-white/10"></div>
             
             <Link to="/about" className="text-white hover:text-purple-400 transition-all duration-200 hover:translate-x-1 text-lg" onClick={() => setIsOpen(false)}>About Us</Link>
