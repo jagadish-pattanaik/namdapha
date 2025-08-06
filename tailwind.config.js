@@ -5,7 +5,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Poppins', 'sans-serif'],
+        display: ['Montserrat', 'sans-serif'],
       },
       animation: {
         'in': 'in 0.6s ease-out',

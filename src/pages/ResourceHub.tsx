@@ -162,10 +162,10 @@ const ResourceHub: React.FC = () => {
         {/* Category Filters */}
         <div className="flex flex-wrap justify-center gap-3 mb-8">
           <button 
-            className={`px-4 py-2 rounded-full transition-colors border border-white/20 ${
+            className={`px-4 py-2 rounded-full transition-colors border ${
               activeCategory === null 
-                ? "bg-purple-600 text-white" 
-                : "bg-white/10 backdrop-blur-md text-white hover:bg-white/30"
+                ? "bg-purple-600 text-white shadow-md shadow-purple-600/30 border-purple-500/50" 
+                : "bg-black/30 backdrop-blur-xl text-white hover:bg-black/50 border-white/10 shadow-md shadow-black/20"
             }`}
             onClick={() => handleCategoryFilter(null)}
           >
@@ -174,10 +174,10 @@ const ResourceHub: React.FC = () => {
           {categories.map(category => (
             <button 
               key={category}
-              className={`px-4 py-2 rounded-full transition-colors border border-white/20 ${
+              className={`px-4 py-2 rounded-full transition-colors border ${
                 activeCategory === category 
-                  ? "bg-purple-600 text-white" 
-                  : "bg-white/10 backdrop-blur-md text-white hover:bg-white/30"
+                  ? "bg-purple-600 text-white shadow-md shadow-purple-600/30 border-purple-500/50" 
+                  : "bg-black/30 backdrop-blur-xl text-white hover:bg-black/50 border-white/10 shadow-md shadow-black/20"
               }`}
               onClick={() => handleCategoryFilter(category)}
             >
@@ -195,11 +195,11 @@ const ResourceHub: React.FC = () => {
                 placeholder="Search resources..." 
                 value={searchQuery}
                 onChange={handleSearchChange}
-                className="w-full px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-6 py-3 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-md shadow-black/20"
               />
               <button 
                 type="submit"
-                className="absolute right-3 top-2.5 px-3 py-1 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors"
+                className="absolute right-3 top-2.5 px-3 py-1 bg-purple-600 text-white rounded-full hover:bg-purple-500 transition-colors shadow-sm shadow-purple-600/30"
               >
                 <FiSearch className="inline mr-1" />
                 Search
@@ -214,12 +214,12 @@ const ResourceHub: React.FC = () => {
             filteredResources.map(resource => (
               <div 
                 key={resource.id} 
-                className="bg-white/10 backdrop-blur-md rounded-2xl overflow-hidden shadow-lg border border-white/20 transition-all hover:bg-white/20"
+                className="bg-black/40 backdrop-blur-xl rounded-2xl overflow-hidden shadow-xl shadow-black/40 border border-white/10 transition-all duration-300 hover:border-purple-500/30 hover:shadow-purple-500/20 group"
               >
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="text-xl font-bold text-white">{resource.title}</h3>
-                    <div className="p-2 bg-purple-600/50 rounded-full">
+                    <div className="p-2 bg-purple-600/50 rounded-full shadow-md shadow-purple-600/20">
                       {getResourceIcon(resource.type)}
                     </div>
                   </div>
@@ -230,7 +230,7 @@ const ResourceHub: React.FC = () => {
                   
                   <div className="flex justify-between items-center mt-6">
                     <span className="text-xs text-white/60">Added: {resource.dateAdded}</span>
-                    <span className="bg-purple-600/30 px-3 py-1 rounded-full text-xs text-white">
+                    <span className="bg-purple-600/30 px-3 py-1 rounded-full text-xs text-white shadow-sm shadow-purple-600/20">
                       {resource.category}
                     </span>
                   </div>
@@ -238,14 +238,14 @@ const ResourceHub: React.FC = () => {
                   {resource.isInternalLink ? (
                     <button 
                       onClick={() => navigate(resource.internalPath || "/")}
-                      className="mt-4 w-full block text-center px-4 py-2 bg-white/20 text-white rounded-full hover:bg-white/30 transition-colors"
+                      className="mt-4 w-full block text-center px-4 py-2 bg-purple-600/70 text-white rounded-full transition-colors shadow-md shadow-purple-600/30 border border-purple-500/50 hover:bg-purple-500 group-hover:shadow-lg group-hover:shadow-purple-500/30"
                     >
                       <span className="inline-block px-2">Access Resource</span>
                     </button>
                   ) : (
                     <a 
                       href={resource.url}
-                      className="mt-4 w-full block text-center px-4 py-2 bg-white/20 text-white rounded-full hover:bg-white/30 transition-colors"
+                      className="mt-4 w-full block text-center px-4 py-2 bg-purple-600/70 text-white rounded-full transition-colors shadow-md shadow-purple-600/30 border border-purple-500/50 hover:bg-purple-500 group-hover:shadow-lg group-hover:shadow-purple-500/30"
                     >
                       <span className="inline-block px-2">Access Resource</span>
                     </a>
@@ -271,7 +271,7 @@ const ResourceHub: React.FC = () => {
 
         {/* Add Resource Button (for admin functionality) */}
         <div className="mt-12 text-center">
-          <button className="px-8 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors">
+          <button className="px-8 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-500 transition-colors shadow-xl shadow-purple-600/30 border border-purple-500/50">
             Request New Resource
           </button>
         </div>
