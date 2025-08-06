@@ -1,4 +1,4 @@
-<div align="center"> <img src="https://res.cloudinary.com/dogq9gvo8/image/upload/v1754394299/20250728_1415_Indian_Subcontinent_Trees_remix_01k1835p9df9a9pvr4h1dtftz4_xdzp1e.png" alt="Namdapha" width="180" style="border-radius: 15px; margin-bottom: 20px" /> <h1>Namdapha - Campus Community Hub</h1> <p>A modern, feature-rich campus community platform built with Next.js, TypeScript, and Tailwind CSS v4</p>
+<div align="center"> <img src="https://res.cloudinary.com/dogq9gvo8/image/upload/v1754394299/20250728_1415_Indian_Subcontinent_Trees_remix_01k1835p9df9a9pvr4h1dtftz4_xdzp1e.png" alt="Namdapha" width="180" style="border-radius: 15px; margin-bottom: 20px" /> <h1>Namdapha</h1> <p>A modern, feature-rich campus community platform built with Next.js, TypeScript, and Tailwind CSS v4</p>
 
 <img alt="Next.js" src="https://img.shields.io/badge/next.js-14.0.0-000000?style=for-the-badge&amp;logo=next.js&amp;logoColor=white">
 <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.0.0-3178C6?style=for-the-badge&amp;logo=typescript&amp;logoColor=white">
