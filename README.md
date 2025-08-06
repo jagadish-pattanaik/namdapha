@@ -48,13 +48,12 @@ export const profileConfig: ProfileConfig = {
 }
 ```
 
-<<<<<<< HEAD
 ### Adding Links
 ```typescript
 links: [
   {
-    id: "portfolio",
-    title: "Portfolio",
+    id: "portfoli",
+    title: "git commit -m "Restore navbar-fix and event page changes"Portfolio",
     url: "https://your-portfolio.com",
     description: "View my latest projects",
     icon: "Briefcase",
@@ -110,6 +109,3 @@ The app is a standard React SPA that can be deployed to:
 ## License
 
 MIT License - feel free to use this for personal or commercial projects!
-=======
-<div align="center"> <br /> <p> Made with ❤️ by the Namdapha Team </p> <p> <a href="https://github.com/yourusername/namdapha">GitHub</a> • <a href="https://namdapha-demo.vercel.app">Live Demo\\\</a> </p> </div>
->>>>>>> 20b4f06 (change)
