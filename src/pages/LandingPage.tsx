@@ -1,27 +1,38 @@
 import React from 'react';
-import Navbar from '../components/Navbar'; // Corrected import path
+import Layout from '../components/Layout';
 
 function LandingPage() {
   return (
-    <div className="w-full min-h-screen bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-blue-500/20 bg-[length:400%_400%] animate-gradient relative">
-      {/* Background Overlay */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-black/20 dark:bg-black/40"></div>
-      </div>
-
-      {/* Navbar */}
-      <div className="relative z-20">
-        <Navbar />
-      </div>
-
-      {/* Main Content */}
-      <div className="relative z-10 max-w-full sm:max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto px-6 py-12">
-        <h1 className="text-4xl font-bold text-center text-white mb-8">Welcome to the Landing Page</h1>
-        <p className="text-lg text-center text-white/80">
-          This is a simple landing page with the same navbar and background as your main page.
+    <Layout>
+      <div className="text-center">
+        <h1 className="text-4xl font-bold text-white mb-8">Welcome to the Landing Page</h1>
+        <p className="text-lg text-white/80">
+          This is a simple landing page with consistent layout and styling.
         </p>
+        
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="bg-white/10 backdrop-blur-md p-8 rounded-3xl shadow-lg border border-white/20 transition-all hover:bg-white/20">
+            <h2 className="text-2xl font-bold text-white mb-4">Explore Features</h2>
+            <p className="text-white/80">
+              Discover everything our platform has to offer through our intuitive navigation.
+            </p>
+            <button className="mt-4 px-6 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors">
+              Get Started
+            </button>
+          </div>
+          
+          <div className="bg-white/10 backdrop-blur-md p-8 rounded-3xl shadow-lg border border-white/20 transition-all hover:bg-white/20">
+            <h2 className="text-2xl font-bold text-white mb-4">Connect With Us</h2>
+            <p className="text-white/80">
+              Join our community and stay updated with the latest events and resources.
+            </p>
+            <button className="mt-4 px-6 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors">
+              Learn More
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Menu, X } from 'lucide-react'; // Make sure lucide-react is installed
-import { Link } from 'react-router-dom'; // Use react-router-dom for routing
+import { Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,12 +18,12 @@ const Navbar = () => {
 
         {/* Center Logo - Clickable */}
         <div className="h-full flex items-center justify-center px-2">
-          <Link to="/LandingPage"> {/* Make the logo clickable */}
-            <div className="h-[85%] aspect-square p-1 rounded-full backdrop-blur-md bg-white/20 border border-white/30 shadow-lg flex items-center justify-center">
+          <Link to="/home">
+            <div className="h-16 w-16 p-1 rounded-full backdrop-blur-md bg-white/20 border border-white/30 shadow-lg flex items-center justify-center">
               <img
                 src="https://res.cloudinary.com/dogq9gvo8/image/upload/v1754390919/1000073005-modified_a0ou2c.png"
                 alt="Logo"
-                className="h-full w-full object-cover rounded-full"
+                className="h-14 w-14 object-cover rounded-full"
               />
             </div>
           </Link>
