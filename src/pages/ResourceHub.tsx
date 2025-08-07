@@ -18,78 +18,14 @@ interface Resource {
 
 const ResourceHub: React.FC = () => {
   const navigate = useNavigate();
-  
-  // Sample resource data - in a real app, this would come from an API
-  const allResources: Resource[] = [
-    {
-      id: 1,
-      title: "Student HandBook 2025-2026",
-      description: "Complete academic info with important dates, Syllabus, about degree and exam schedules.",
-      type: "document",
-      url: "#",
-      dateAdded: "July 15, 2025",
-      category: "Academic"
-    },
-    // Link tree resources - now with internal navigation
-    {
-      id: 7,
-      title: "Important Links (LinkTree)",
-      description: "Find each and every link at one place releted to accademics, events, and more.",
-      type: "link",
-      url: "#",
-      dateAdded: "June 10, 2025",
-      category: "Link Tree",
-      isInternalLink: true,
-      internalPath: "/imp-links" // This will navigate to your ImpLinks page
-    },
-    {
-      id: 2,
-      title: "Join Namdapha WhatsApp Community",
-      description: "Join our official WhatsApp Community Group for updates, events, and chit chat.",
-      type: "whatsapp",
-      url: "#", // Add a valid WhatsApp link here if available
-      dateAdded: "June 28, 2025",
-      category: "WhatsApp",
-      internalPath: "/whatsapp-verify" // This will navigate to your WhatsApp verification page
-    },
-    {
-      id: 3,
-      title: "Greading Document",
-      description: "Greading system and policies for the current academic year.",
-      type: "book",
-      url: "#",
-      dateAdded: "July 1, 2025",
-      category: "Academic"
-    },
-    {
-      id: 4,
-      title: "Career Center Website",
-      description: "Access the career center portal for job postings and internship opportunities.",
-      type: "link",
-      url: "#",
-      dateAdded: "July 10, 2025",
-      category: "Career"
-    },
-    {
-      id: 5,
-      title: "Library Resources Guide",
-      description: "How to access online journals, books, and research materials.",
-      type: "document",
-      url: "#",
-      dateAdded: "June 15, 2025",
-      category: "Academic"
-    },
-    {
-      id: 6,
-      title: "Student Wellness Resources",
-      description: "Information on health services, counseling, and wellness programs.",
-      type: "book",
-      url: "#",
-      dateAdded: "July 5, 2025",
-      category: "Health"
-    },
-    
-  ];
+  const [allResources, setAllResources] = useState<Resource[]>([]);
+
+  useEffect(() => {
+    fetch('http://localhost:5050/api/resources')
+      .then(res => res.json())
+      .then(data => setAllResources(data))
+      .catch(err => console.error('API error:', err));
+  }, []);
 
   // State for filtering and searching
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -135,7 +71,7 @@ const ResourceHub: React.FC = () => {
     }
     
     setFilteredResources(result);
-  }, [activeCategory, searchQuery]);
+  }, [activeCategory, searchQuery, allResources]);
 
   // Function to render icon based on resource type and WhatsApp card
   const getResourceIcon = (type: string, isWhatsappCard = false) => {

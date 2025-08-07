@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/clerk-react";
 import LandingPage from './pages/LandingPage';
 import About from './pages/About';
 import ImpLinks from './pages/ImpLinks';
@@ -7,6 +8,8 @@ import HouseCouncil from './pages/HouseCouncil';
 import Events from './pages/Events';
 import ResourceHub from './pages/ResourceHub';
 import WhatsappVerify from './pages/WhatsappVerify';
+import AdminLogin from './pages/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
   return (
@@ -27,6 +30,20 @@ function App() {
       <Route path="/events" element={<Events />} />
       <Route path="/resource-hub" element={<ResourceHub />} />
       <Route path="/whatsapp-verify" element={<WhatsappVerify />} /> {/* Added route */}
+      <Route path="/admin" element={<AdminLogin />} /> {/* Added Admin route */}
+      <Route
+        path="/admin/dashboard"
+        element={
+          <>
+            <SignedIn>
+              <AdminDashboard />
+            </SignedIn>
+            <SignedOut>
+              <RedirectToSignIn redirectUrl="/admin" />
+            </SignedOut>
+          </>
+        }
+      />
     </Routes>
   );
 }
