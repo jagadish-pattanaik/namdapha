@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import { motion, AnimatePresence } from 'framer-motion';
 
+
 interface CouncilMember {
   id: number;
   name: string;
@@ -51,6 +52,8 @@ const HouseCouncil = () => {
       department: "Information Technology"
     }
   ];
+
+
 
   // Regional coordinators data (5 columns x 2 rows = 10 coordinators)
   const regionalCoordinators: RegionalCoordinator[] = [
@@ -156,7 +159,7 @@ const HouseCouncil = () => {
       <div className="relative z-[2]">
         <Layout bgImage={null}>
           <div className="py-6 px-3 sm:px-4 md:px-6 lg:px-8">
-            {/* Header Section - More compact on mobile */}
+            {/* Header Section */}
             <motion.div 
               className="text-center mb-8 sm:mb-10"
               initial={{ opacity: 0, y: 30 }}
@@ -173,7 +176,7 @@ const HouseCouncil = () => {
               </p>
             </motion.div>
 
-            {/* Council Members Grid - Single column on mobile for better vertical layout */}
+            {/* Council Members Grid */}
             <div className="max-w-7xl mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 {councilMembers.map((member, index) => (
@@ -280,13 +283,13 @@ const HouseCouncil = () => {
 
             {/* Regional Coordinators Section */}
             <motion.div
-              className="mt-12 sm:mt-16 md:mt-20"
+              className="mt-12 sm:mt-16 md:mt-20 -mx-3 sm:-mx-4 md:-mx-6 lg:-mx-8"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               {/* Regional Coordinators Header */}
-              <div className="text-center mb-8 sm:mb-10">
+              <div className="text-center mb-8 sm:mb-10 px-3 sm:px-4 md:px-6 lg:px-8">
                 <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4">
                   Regional Coordinators
                 </h2>
@@ -296,9 +299,9 @@ const HouseCouncil = () => {
                 </p>
               </div>
 
-              {/* Regional Coordinators Grid - 5 columns with proper edge spacing */}
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 sm:gap-8 md:gap-10 lg:gap-12 xl:gap-8">
+              {/* Regional Coordinators Grid - Remove horizontal padding for edge-to-edge layout */}
+              <div className="w-full">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 sm:gap-8 md:gap-10 lg:gap-12 xl:gap-8">
                   {regionalCoordinators.map((coordinator, index) => (
                     <motion.div
                       key={coordinator.id}
@@ -312,45 +315,31 @@ const HouseCouncil = () => {
                       onMouseEnter={() => setHoveredCoordinator(coordinator.id)}
                       onMouseLeave={() => setHoveredCoordinator(null)}
                       whileHover={{ y: -8 }}
-                      style={{ perspective: 1000 }}
                     >
                       {/* Regional Coordinator Card */}
                       <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden transition-all duration-300 hover:border-orange-500/30 hover:bg-white/8">
                         {/* Profile Image */}
                         <div className="p-4 pb-3">
-                          <motion.div 
-                            className="relative w-full h-64 sm:h-60 md:h-56 lg:h-60 xl:h-64 mx-auto mb-3"
-                            whileHover={{ 
-                              rotateX: -20,
-                              rotateY: 20,
-                              scale: 1.15,
-                              z: 80
-                            }}
-                            transition={{ 
-                              type: "spring", 
-                              stiffness: 400, 
-                              damping: 25 
-                            }}
-                          >
-                            <div className="w-full h-full rounded-2xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
-                              {/* Enhanced 3D Shadow Effects with orange theme */}
-                              <div className="absolute -inset-2 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-3xl blur-sm opacity-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:translate-y-2"></div>
-                              <div className="absolute -inset-1 bg-black/30 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:translate-y-1"></div>
-                              
+                          {/* Remove padding and margin for full-width image */}
+                          <div className="relative h-64 sm:h-60 md:h-56 lg:h-60 xl:h-64 w-full">
+                            <div className="w-full h-full rounded-2xl overflow-hidden shadow-2xl transition-all duration-500">
                               {/* Main Image */}
                               <div className="relative w-full h-full">
                                 <div 
                                   className="w-full h-full bg-cover bg-center bg-orange-400 rounded-2xl"
-                                  style={{ backgroundImage: `url(${coordinator.image})` }}
+                                  style={{ 
+                                    backgroundImage: `url(${coordinator.image})`,
+                                    width: '100%',
+                                    minWidth: '0', // Remove minWidth restriction
+                                    maxWidth: 'none', // Remove maxWidth restriction
+                                    margin: 0 // Remove margin
+                                  }}
                                 />
                                 {/* Subtle gradient overlay */}
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent rounded-2xl"></div>
-                                
-                                {/* Enhanced 3D depth effect */}
-                                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
                               </div>
                             </div>
-                          </motion.div>
+                          </div>
                         </div>
 
                         {/* Coordinator Info */}
@@ -409,15 +398,7 @@ const HouseCouncil = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.8 }}
             >
-              <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-white/10 max-w-2xl mx-auto">
-                <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">Join Our Community</h3>
-                <p className="text-white/70 text-sm sm:text-base mb-4 sm:mb-6">
-                  Interested in being part of the House Council or Regional Coordination? Connect with us to learn about opportunities.
-                </p>
-                <button className="px-6 sm:px-8 py-2 sm:py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors font-medium text-sm sm:text-base">
-                  Get Involved
-                </button>
-              </div>
+            
             </motion.div>
           </div>
         </Layout>
