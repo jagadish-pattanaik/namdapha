@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FiClock, FiMapPin, FiChevronRight, FiChevronLeft, FiChevronDown, FiChevronUp, FiCalendar } from 'react-icons/fi';
 import Layout from '../components/Layout';
+import Footer from '../components/Footer';
 
 interface Event {
   id: number;
@@ -190,7 +191,8 @@ const Events = () => {
   const currentEvent = events[currentEventIndex];
 
   return (
-    <Layout>
+    <div>
+      <Layout>
       {/* Complete glassmorphism background wrapper for Upcoming Events */}
       <div className="relative mx-4 mb-12 rounded-3xl overflow-hidden">
         {/* Background glass effect */}
@@ -469,6 +471,10 @@ const Events = () => {
         </div>
       </div>
     </Layout>
+    
+    {/* Footer */}
+    <Footer />
+    </div>
   );
 };
 

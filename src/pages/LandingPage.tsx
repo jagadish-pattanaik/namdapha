@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Layout from '../components/Layout';
+import Footer from '../components/Footer';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type ValueItem = {
@@ -165,17 +166,6 @@ const AnimatedValueCard = () => {
 
 function LandingPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [scrollY, setScrollY] = useState(0);
-  
-  // Handle scroll for parallax
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -206,15 +196,22 @@ function LandingPage() {
       color: string;
 
       constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 5 + 1;
-        this.speedX = Math.random() * 3 - 1.5;
-        this.speedY = Math.random() * 3 - 1.5;
+        this.x = Math.random() * (canvas?.width || 0);
+        this.y = Math.random() * (canvas?.height || 0);
+        this.size = Math.random() * 3 + 1;
+        this.speedX = Math.random() * 2 - 1;
+        this.speedY = Math.random() * 2 - 1;
         
-        // Purple and blue hues for the particles
-        const hue = Math.random() * 60 + 240; // Blue to purple range (240-300)
-        this.color = `hsla(${hue}, 80%, 60%, 0.8)`;
+        // Whitish blue magical colors with some purple house colors
+        const colors = [
+          'rgba(220, 230, 255, 0.8)', // Light whitish blue
+          'rgba(200, 220, 255, 0.9)', // Light blue
+          'rgba(240, 248, 255, 0.7)', // Alice blue
+          'rgba(230, 230, 250, 0.8)', // Lavender
+          'rgba(221, 160, 221, 0.6)', // Plum (house color)
+          'rgba(186, 85, 211, 0.5)',  // Medium orchid (house color)
+        ];
+        this.color = colors[Math.floor(Math.random() * colors.length)];
       }
 
       update() {
@@ -222,10 +219,10 @@ function LandingPage() {
         this.y += this.speedY;
 
         // Bounce off edges
-        if (this.x > canvas.width || this.x < 0) {
+        if (this.x > (canvas?.width || 0) || this.x < 0) {
           this.speedX = -this.speedX;
         }
-        if (this.y > canvas.height || this.y < 0) {
+        if (this.y > (canvas?.height || 0) || this.y < 0) {
           this.speedY = -this.speedY;
         }
       }
@@ -241,7 +238,7 @@ function LandingPage() {
 
     // Create particle array
     const particleArray: Particle[] = [];
-    const particleCount = 30; // Adjust for more or fewer particles
+    const particleCount = 40; // Slightly more particles for magical effect
 
     for (let i = 0; i < particleCount; i++) {
       particleArray.push(new Particle());
@@ -251,17 +248,17 @@ function LandingPage() {
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Draw connections between particles
+      // Draw connections between particles with whitish blue color
       for (let a = 0; a < particleArray.length; a++) {
         for (let b = a; b < particleArray.length; b++) {
           const dx = particleArray[a].x - particleArray[b].x;
           const dy = particleArray[a].y - particleArray[b].y;
           const distance = Math.sqrt(dx * dx + dy * dy);
           
-          if (distance < 200) {
-            const opacity = 1 - distance / 200;
-            ctx.strokeStyle = `rgba(150, 100, 255, ${opacity * 0.5})`;
-            ctx.lineWidth = 1;
+          if (distance < 150) {
+            const opacity = 1 - distance / 150;
+            ctx.strokeStyle = `rgba(186, 85, 211, ${opacity * 0.4})`; // Purple house color connections
+            ctx.lineWidth = 0.8;
             ctx.beginPath();
             ctx.moveTo(particleArray[a].x, particleArray[a].y);
             ctx.lineTo(particleArray[b].x, particleArray[b].y);
@@ -287,27 +284,14 @@ function LandingPage() {
   }, []);
 
   return (
-    <div className="min-h-screen relative bg-black">
-      {/* HERO SECTION - Tree background with center image */}
+    <div className="min-h-screen relative">
+      {/* HERO SECTION - With restored center image */}
       <div className="relative min-h-screen">
-        {/* Full background trees image - only for hero section */}
-        <div 
-          className="absolute inset-0 z-[1] transition-transform duration-100"
-          style={{
-            backgroundImage: `url(https://res.cloudinary.com/dogq9gvo8/image/upload/v1754394299/20250728_1415_Indian_Subcontinent_Trees_remix_01k1835p9df9a9pvr4h1dtftz4_xdzp1e.png)`,
-            transform: `translateY(${scrollY * 0.3}px)`,
-            backgroundPosition: 'center top',
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat',
-            opacity: 0.4,
-          }}
-        />
-        
-        {/* Animated canvas background - only for hero section */}
+        {/* Animated canvas background - magical whitish blue particles */}
         <canvas
           ref={canvasRef}
-          className="absolute inset-0 z-[2] opacity-40"
-          style={{ filter: 'blur(2px)' }}
+          className="absolute inset-0 z-[2] opacity-60"
+          style={{ filter: 'blur(1px)' }}
         />
         
         <Layout bgImage={null}>
@@ -326,20 +310,19 @@ function LandingPage() {
               </p>
             </div>
 
-            {/* Center image - part of hero section */}
+            {/* Restored Center image - part of hero section */}
             <div className="relative w-[100vw] -ml-[50vw] left-[50%] overflow-hidden animate-fadeInUp"
                 style={{ 
                   animationDelay: '0.3s',
                   height: 'clamp(250px, 50vw, 600px)',
                   marginTop: '-2rem',
-                  marginBottom: '0' // Remove bottom margin
+                  marginBottom: '0'
                 }}>
                 
               <div 
-                className="absolute inset-0 bg-cover z-10 transition-transform duration-100"
+                className="absolute inset-0 bg-cover z-10"
                 style={{ 
                   backgroundImage: `url(https://res.cloudinary.com/dogq9gvo8/image/upload/v1754487754/20250728_1547_Group_Beach_Gathering_remix_01k188e475eezvtpq51c33z8c3-2_w85umz.png)`,
-                  transform: `translateY(${scrollY * 0.15}px)`,
                   backgroundPosition: 'center 35%',
                   backgroundSize: '100% auto',
                   mixBlendMode: 'normal',
@@ -362,21 +345,21 @@ function LandingPage() {
         </Layout>
       </div>
 
-      {/* ABOUT US SECTION - Overlaps hero section with enhanced shadow */}
-      <div className="relative bg-black -mt-48 sm:-mt-56 md:-mt-64 lg:-mt-72 z-[4]" style={{ paddingTop: '12rem' }}>
-        {/* Top shadow effect for depth */}
-        <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-transparent via-black/60 to-black z-[4]"></div>
+      {/* ABOUT US SECTION - Beautiful card with gradient background */}
+      <div className="relative -mt-48 sm:-mt-56 md:-mt-64 lg:-mt-72 z-[4]" style={{ paddingTop: '12rem' }}>
+        {/* Top shadow effect for depth with darker theme */}
+        <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-transparent via-black/80 to-black z-[4]"></div>
         
         {/* Enhanced shadow layer for better separation */}
-        <div className="absolute top-0 left-0 right-0 h-16 shadow-2xl shadow-black/60 z-[3]"></div>
+        <div className="absolute top-0 left-0 right-0 h-16 shadow-2xl shadow-black/80 z-[3]"></div>
         
-        {/* Main black background with subtle parallax */}
-        <div 
-          className="absolute inset-0 bg-black"
-          style={{
-            transform: `translateY(${scrollY * 0.01}px)`,
-          }}
-        />
+        {/* Dark gradient background matching Layout theme */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-black"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-black via-purple-950/40 to-black"></div>
+          <div className="absolute inset-0 bg-gradient-to-tr from-indigo-950/30 via-transparent to-purple-900/30"></div>
+          <div className="absolute inset-0 bg-gradient-to-bl from-transparent via-slate-900/40 to-black"></div>
+        </div>
         
         {/* Subtle inner shadow for depth */}
         <div className="absolute inset-0 shadow-inner shadow-black/40"></div>
@@ -461,6 +444,9 @@ function LandingPage() {
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

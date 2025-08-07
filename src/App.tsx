@@ -6,6 +6,7 @@ import Teams from './pages/Teams';
 import HouseCouncil from './pages/HouseCouncil';
 import Events from './pages/Events';
 import ResourceHub from './pages/ResourceHub';
+import JoinUs from './pages/JoinUs';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       {/* Other routes */}
       <Route path="/about" element={<About/>} />
       <Route path="/imp-links" element={<ImpLinks />} />
+      <Route path="/join-us" element={<JoinUs />} />
       
       {/* New routes */}
       <Route path="/teams" element={<Teams />} />

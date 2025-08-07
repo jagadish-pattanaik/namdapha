@@ -13,6 +13,13 @@ export interface LinkButton {
   featured?: boolean;
 }
 
+export interface ContactInfo {
+  name: string;
+  role: string;
+  email: string;
+  photo: string;
+}
+
 export interface ProfileConfig {
   name: string;
   bio: string;
@@ -24,6 +31,7 @@ export interface ProfileConfig {
   contactEmail: string;
   enableAnalytics: boolean;
   enableQRCode: boolean;
+  contactInfo: ContactInfo[];
 }
 
 export interface AnalyticsData {

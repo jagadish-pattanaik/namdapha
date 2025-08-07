@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
+import Footer from '../components/Footer';
 import { FiDownload, FiBook, FiVideo, FiLink, FiSearch } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -152,7 +153,8 @@ const ResourceHub: React.FC = () => {
   };
 
   return (
-    <Layout>
+    <div>
+      <Layout>
       <div className="w-full">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-white mb-4">Resource Hub</h1>
@@ -277,6 +279,10 @@ const ResourceHub: React.FC = () => {
         </div>
       </div>
     </Layout>
+    
+    {/* Footer */}
+    <Footer />
+    </div>
   );
 };
 

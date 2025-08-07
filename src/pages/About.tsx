@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Layout from '../components/Layout';
+import Footer from '../components/Footer';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type ValueItem = {
@@ -234,20 +235,9 @@ const AnimatedValueCard = () => {
 };
 
 function AboutUs() {
-  const [scrollY, setScrollY] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Scroll effect
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Particle system (same as LandingPage)
+  // Particle system with whitish blue colors
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -267,7 +257,7 @@ function AboutUs() {
     // Resize canvas when window size changes
     window.addEventListener('resize', resizeCanvas);
 
-    // Particle class
+    // Particle class with whitish blue colors
     class Particle {
       x: number;
       y: number;
@@ -278,13 +268,20 @@ function AboutUs() {
       color: string;
 
       constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+        this.x = Math.random() * (canvas?.width || 0);
+        this.y = Math.random() * (canvas?.height || 0);
         this.vx = (Math.random() - 0.5) * 0.5;
         this.vy = (Math.random() - 0.5) * 0.5;
         this.size = Math.random() * 2 + 1;
         this.opacity = Math.random() * 0.5 + 0.1;
-        const colors = ['#8B5CF6', '#A855F7', '#9333EA', '#7C3AED'];
+        const colors = [
+          'rgba(220, 230, 255,', // Light whitish blue
+          'rgba(200, 220, 255,', // Light blue
+          'rgba(240, 248, 255,', // Alice blue
+          'rgba(230, 230, 250,', // Lavender
+          'rgba(221, 160, 221,', // Plum (house color)
+          'rgba(186, 85, 211,',  // Medium orchid (house color)
+        ];
         this.color = colors[Math.floor(Math.random() * colors.length)];
       }
 
@@ -292,17 +289,18 @@ function AboutUs() {
         this.x += this.vx;
         this.y += this.vy;
 
-        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+        if (this.x < 0 || this.x > (canvas?.width || 0)) this.vx *= -1;
+        if (this.y < 0 || this.y > (canvas?.height || 0)) this.vy *= -1;
 
         this.opacity += (Math.random() - 0.5) * 0.01;
         this.opacity = Math.max(0.1, Math.min(0.6, this.opacity));
       }
 
       draw() {
+        if (!ctx) return;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = this.color + Math.floor(this.opacity * 255).toString(16).padStart(2, '0');
+        ctx.fillStyle = this.color + Math.floor(this.opacity * 255).toString(16).padStart(2, '0') + ')';
         ctx.fill();
       }
     }
@@ -315,6 +313,7 @@ function AboutUs() {
 
     // Animation loop
     function animate() {
+      if (!ctx || !canvas) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       particles.forEach(particle => {
@@ -334,19 +333,6 @@ function AboutUs() {
 
   return (
     <div className="min-h-screen relative bg-black">
-      {/* Background Image with Parallax */}
-      <div 
-        className="fixed inset-0 z-[1] transition-transform duration-100"
-        style={{
-          backgroundImage: `url(https://res.cloudinary.com/dogq9gvo8/image/upload/v1754394299/20250728_1415_Indian_Subcontinent_Trees_remix_01k1835p9df9a9pvr4h1dtftz4_xdzp1e.png)`,
-          transform: `translateY(${scrollY * 0.3}px)`,
-          backgroundPosition: 'center top',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          opacity: 0.4,
-        }}
-      />
-
       {/* Particle Canvas */}
       <canvas
         ref={canvasRef}
@@ -443,7 +429,7 @@ function AboutUs() {
                 {/* Our Story Section */}
                 <div className="bg-black/30 backdrop-blur-xl rounded-3xl p-8 lg:p-12 mb-12 border border-white/10">
                   <h2 className="font-display text-3xl font-bold text-white mb-6 text-center">
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-300 to-blue-300">
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-cyan-300">
                       Our Story
                     </span>
                   </h2>
@@ -493,6 +479,9 @@ function AboutUs() {
             </div>
           </div>
         </Layout>
+        
+        {/* Footer */}
+        <Footer />
       </div>
     </div>
   );

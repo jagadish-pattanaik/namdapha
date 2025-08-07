@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
+import Footer from '../components/Footer';
 import { motion, AnimatePresence } from 'framer-motion';
 
 
@@ -143,18 +144,6 @@ const HouseCouncil = () => {
 
   return (
     <div className="min-h-screen relative bg-black">
-      {/* Background Image */}
-      <div 
-        className="fixed inset-0 z-[1]"
-        style={{
-          backgroundImage: `url(https://res.cloudinary.com/dogq9gvo8/image/upload/v1754394299/20250728_1415_Indian_Subcontinent_Trees_remix_01k1835p9df9a9pvr4h1dtftz4_xdzp1e.png)`,
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          opacity: 0.4,
-        }}
-      />
-
       {/* Main Content */}
       <div className="relative z-[2]">
         <Layout bgImage={null}>
@@ -402,6 +391,9 @@ const HouseCouncil = () => {
             </motion.div>
           </div>
         </Layout>
+        
+        {/* Footer */}
+        <Footer />
       </div>
     </div>
   );
