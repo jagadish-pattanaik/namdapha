@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import { FiDownload, FiBook, FiVideo, FiLink, FiSearch } from 'react-icons/fi';
+import { FaWhatsapp } from 'react-icons/fa'; // <-- Add this import for WhatsApp icon
 import { Link, useNavigate } from 'react-router-dom';
 
 interface Resource {
   id: number;
   title: string;
   description: string;
-  type: 'document' | 'video' | 'link' | 'book';
+  type: 'document' | 'video' | 'link' | 'book' | 'whatsapp';
   url: string;
   dateAdded: string;
   category: string;
@@ -22,8 +23,8 @@ const ResourceHub: React.FC = () => {
   const allResources: Resource[] = [
     {
       id: 1,
-      title: "Academic Calendar 2025-26",
-      description: "Complete academic calendar with important dates, holidays, and exam schedules.",
+      title: "Student HandBook 2025-2026",
+      description: "Complete academic info with important dates, Syllabus, about degree and exam schedules.",
       type: "document",
       url: "#",
       dateAdded: "July 15, 2025",
@@ -32,28 +33,29 @@ const ResourceHub: React.FC = () => {
     // Link tree resources - now with internal navigation
     {
       id: 7,
-      title: "Important Links",
-      description: "Find each and every link at one place",
+      title: "Important Links (LinkTree)",
+      description: "Find each and every link at one place releted to accademics, events, and more.",
       type: "link",
       url: "#",
       dateAdded: "June 10, 2025",
-      category: "Link tree",
+      category: "Link Tree",
       isInternalLink: true,
       internalPath: "/imp-links" // This will navigate to your ImpLinks page
     },
     {
       id: 2,
-      title: "Introduction to Campus Facilities",
-      description: "Video tour of all major facilities available on campus for students.",
-      type: "video",
-      url: "#",
+      title: "Join Namdapha WhatsApp Community",
+      description: "Join our official WhatsApp Community Group for updates, events, and chit chat.",
+      type: "whatsapp",
+      url: "#", // Add a valid WhatsApp link here if available
       dateAdded: "June 28, 2025",
-      category: "Campus Life"
+      category: "WhatsApp",
+      internalPath: "/whatsapp-verify" // This will navigate to your WhatsApp verification page
     },
     {
       id: 3,
-      title: "Student Handbook",
-      description: "Comprehensive guide covering rules, regulations, and student resources.",
+      title: "Greading Document",
+      description: "Greading system and policies for the current academic year.",
       type: "book",
       url: "#",
       dateAdded: "July 1, 2025",
@@ -135,8 +137,11 @@ const ResourceHub: React.FC = () => {
     setFilteredResources(result);
   }, [activeCategory, searchQuery]);
 
-  // Function to render icon based on resource type
-  const getResourceIcon = (type: string) => {
+  // Function to render icon based on resource type and WhatsApp card
+  const getResourceIcon = (type: string, isWhatsappCard = false) => {
+    if (isWhatsappCard) {
+      return <FaWhatsapp className="text-white text-xl" />;
+    }
     switch (type) {
       case 'document':
         return <FiDownload className="text-white text-xl" />;
@@ -209,18 +214,30 @@ const ResourceHub: React.FC = () => {
         </div>
 
         {/* Resources Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredResources.length > 0 ? (
             filteredResources.map(resource => (
               <div 
                 key={resource.id} 
-                className="bg-black/40 backdrop-blur-xl rounded-2xl overflow-hidden shadow-xl shadow-black/40 border border-white/10 transition-all duration-300 hover:border-purple-500/30 hover:shadow-purple-500/20 group"
+                className={`bg-black/40 backdrop-blur-xl rounded-2xl overflow-hidden shadow-xl shadow-black/40 border border-white/10 transition-all duration-300 
+                  hover:border-purple-500/30 hover:shadow-purple-500/20 group
+                  w-full sm:w-full lg:w-full max-w-[420px] mx-auto
+                `}
               >
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-4">
-                    <h3 className="text-xl font-bold text-white">{resource.title}</h3>
-                    <div className="p-2 bg-purple-600/50 rounded-full shadow-md shadow-purple-600/20">
-                      {getResourceIcon(resource.type)}
+                    <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                      {/* Removed WhatsApp icon on the left */}
+                      {resource.title}
+                    </h3>
+                    <div className={`p-2 rounded-full shadow-md ${
+                      resource.id === 2
+                        ? "bg-green-500/70 shadow-green-500/20"
+                        : "bg-purple-600/50 shadow-purple-600/20"
+                    }`}>
+                      {resource.id === 2
+                        ? <FaWhatsapp className="text-white text-xl" />
+                        : getResourceIcon(resource.type)}
                     </div>
                   </div>
                   
@@ -230,12 +247,26 @@ const ResourceHub: React.FC = () => {
                   
                   <div className="flex justify-between items-center mt-6">
                     <span className="text-xs text-white/60">Added: {resource.dateAdded}</span>
-                    <span className="bg-purple-600/30 px-3 py-1 rounded-full text-xs text-white shadow-sm shadow-purple-600/20">
+                    <span className={`px-3 py-1 rounded-full text-xs text-white shadow-sm ${
+                      resource.id === 2
+                        ? "bg-green-500/30 shadow-green-500/20"
+                        : "bg-purple-600/30 shadow-purple-600/20"
+                    }`}>
                       {resource.category}
                     </span>
                   </div>
                   
-                  {resource.isInternalLink ? (
+                  {/* WhatsApp card button for id 2 */}
+                  {resource.id === 2 ? (
+                    <button
+                      onClick={() => navigate(resource.internalPath || "/")}
+                      className="mt-4 w-full block text-center px-4 py-2 bg-green-500 text-white rounded-full transition-colors shadow-md shadow-green-500/30 border border-green-600/50 hover:bg-green-600 group-hover:shadow-lg group-hover:shadow-purple-500/30"
+                    >
+                      <span className="inline-block px-2 flex items-center justify-center gap-2">
+                        Join WhatsApp Community
+                      </span>
+                    </button>
+                  ) : resource.isInternalLink ? (
                     <button 
                       onClick={() => navigate(resource.internalPath || "/")}
                       className="mt-4 w-full block text-center px-4 py-2 bg-purple-600/70 text-white rounded-full transition-colors shadow-md shadow-purple-600/30 border border-purple-500/50 hover:bg-purple-500 group-hover:shadow-lg group-hover:shadow-purple-500/30"

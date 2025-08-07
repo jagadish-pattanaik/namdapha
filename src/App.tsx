@@ -6,6 +6,7 @@ import Teams from './pages/Teams';
 import HouseCouncil from './pages/HouseCouncil';
 import Events from './pages/Events';
 import ResourceHub from './pages/ResourceHub';
+import WhatsappVerify from './pages/WhatsappVerify';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <Route path="/house-council" element={<HouseCouncil />} />
       <Route path="/events" element={<Events />} />
       <Route path="/resource-hub" element={<ResourceHub />} />
+      <Route path="/whatsapp-verify" element={<WhatsappVerify />} /> {/* Added route */}
     </Routes>
   );
 }

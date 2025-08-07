@@ -14,28 +14,36 @@ export const useAnalytics = () => {
     };
   });
 
+  // Track views only once per session
   useEffect(() => {
-    // Increment view count on component mount
-    const newAnalytics = {
-      ...analytics,
-      totalViews: analytics.totalViews + 1,
-      lastUpdated: new Date().toISOString()
-    };
-    setAnalytics(newAnalytics);
-    localStorage.setItem('analytics', JSON.stringify(newAnalytics));
+    const sessionKey = 'analytics_view_tracked';
+    if (!sessionStorage.getItem(sessionKey)) {
+      sessionStorage.setItem(sessionKey, 'true');
+      setAnalytics(prev => {
+        const updated = {
+          ...prev,
+          totalViews: prev.totalViews + 1,
+          lastUpdated: new Date().toISOString()
+        };
+        localStorage.setItem('analytics', JSON.stringify(updated));
+        return updated;
+      });
+    }
   }, []);
 
   const trackLinkClick = (linkId: string) => {
-    const newAnalytics = {
-      ...analytics,
-      linkClicks: {
-        ...analytics.linkClicks,
-        [linkId]: (analytics.linkClicks[linkId] || 0) + 1
-      },
-      lastUpdated: new Date().toISOString()
-    };
-    setAnalytics(newAnalytics);
-    localStorage.setItem('analytics', JSON.stringify(newAnalytics));
+    setAnalytics(prev => {
+      const updated = {
+        ...prev,
+        linkClicks: {
+          ...prev.linkClicks,
+          [linkId]: (prev.linkClicks[linkId] || 0) + 1
+        },
+        lastUpdated: new Date().toISOString()
+      };
+      localStorage.setItem('analytics', JSON.stringify(updated));
+      return updated;
+    });
   };
 
   return { analytics, trackLinkClick };

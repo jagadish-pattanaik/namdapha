@@ -49,12 +49,12 @@ const ImpLinks = () => {
           {/* Contact Info Section */}
           <div className="max-w-full sm:max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto px-6 py-12">
             <div className="bg-black/20 backdrop-blur-md p-8 rounded-3xl shadow-2xl">
-              <h2 className="text-2xl font-bold text-center text-white mb-8">Contact Information</h2>
+              <h2 className="text-2xl font-bold text-center text-white mb-8">Important Contact Details</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {profileConfig.contactInfo.map((contact, index) => (
                   <div
                     key={index}
-                    className="bg-black/20 backdrop-blur-md border border-white/20 rounded-2xl p-6 flex flex-col items-center text-center shadow-2xl hover:shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] transition-all duration-300 hover:transform hover:scale-105"
+                    className="bg-black/20 backdrop-blur-md border border-white/20 rounded-2xl p-6 flex flex-col items-center text-center shadow-2xl hover:shadow-purple-500/30 transition-all duration-300 hover:transform hover:scale-105"
                   >
                     <img
                       src={contact.photo}
@@ -65,7 +65,7 @@ const ImpLinks = () => {
                     <p className="text-sm font-bold" style={{ color: '#ddc9a0' }}>{contact.role}</p>
                     <a
                       href={`mailto:${contact.email}`}
-                      className="mt-2 hover:underline text-sm"
+                      className="mt-2 hover:underline text-sm inline-block truncate max-w-full"
                       style={{ color: '#ffffff' }}
                     >
                       {contact.email}

@@ -4,8 +4,7 @@ export const profileConfig: ProfileConfig = {
   name: "Namdapha House",
   bio: "Find all important links in one place",
   profileImage: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754390919/1000073005-modified_a0ou2c.png",
-  // backgroundType: "gradient",
-  // backgroundValue: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+
   backgroundType: "image",
   backgroundValue: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754394299/20250728_1415_Indian_Subcontinent_Trees_remix_01k1835p9df9a9pvr4h1dtftz4_xdzp1e.png",
 
@@ -18,12 +17,13 @@ export const profileConfig: ProfileConfig = {
   ],
   links: [
     {
-      id: "portfolio",
-      title: "Portfolio",
-      url: "https://portfolio.example.com",
-      description: "View my latest projects and work",
-      icon: "Briefcase",
-      featured: true
+      id: "whatsapp-community",
+      title: "WhatsApp Community",
+      url: "/whatsapp-verify", // This will navigate to your WhatsApp verification WhatsApp group link
+      description: "Join Namdapha official Community",
+      icon: "Whatsapp", // Use a WhatsApp icon in your UI
+      featured: true,
+     
     },
     {
       id: "blog",
@@ -69,19 +69,37 @@ export const profileConfig: ProfileConfig = {
       name: "Devansh Malhotra",
       role: "House Secretary",
       email: "namdapha-sec@ds.study.iitm.ac.in",
-      photo: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402073/WhatsApp_Image_2025-08-05_at_19.18.21_lafgtv.jpg", // Replace with actual photo URL
+      photo: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402073/WhatsApp_Image_2025-08-05_at_19.18.21_lafgtv.jpg",
     },
     {
       name: "Sravya N",
       role: "Deputy Secretary",
       email: "namdapha-ds@ds.study.iitm.ac.in",
-      photo: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402834/srav2_ozsrmg.jpg", // Replace with actual photo URL
+      photo: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402834/srav2_ozsrmg.jpg",
     },
     {
       name: "Harshita Dudeja",
       role: "Web Admin",
       email: "namdapha-webad@ds.study.iitm.ac.in",
-      photo: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402074/IMG_20241013_185028_753_fa3olk.webp", // Replace with actual photo URL
+      photo: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402074/IMG_20241013_185028_753_fa3olk.webp",
     },
+    {
+      name: "Support Team",
+      role: "Technical Support",
+      email: "support@namdapha.edu",
+      photo: "https://ui-avatars.com/api/?name=Support+Team&background=0D8ABC&color=fff",
+    },
+    {
+      name: "Admissions Office",
+      role: "Admissions & Enrollment",
+      email: "admissions@namdapha.edu",
+      photo: "https://ui-avatars.com/api/?name=Admissions+Office&background=8BC34A&color=fff",
+    },
+    {
+      name: "Events Coordinator",
+      role: "Campus Events",
+      email: "events@namdapha.edu",
+      photo: "https://ui-avatars.com/api/?name=Events+Coordinator&background=FF9800&color=fff",
+    }
   ],
 };

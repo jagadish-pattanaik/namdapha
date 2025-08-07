@@ -349,14 +349,7 @@ function LandingPage() {
               {/* Bottom shadow gradient for smooth transition */}
               <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-20"></div>
               
-              <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-0 right-0 text-center px-4 z-30">
-                <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-display font-bold text-white mb-1 md:mb-2">
-                  Meet Our Team
-                </h3>
-                <p className="text-sm sm:text-base text-white/80 font-sans">
-                  The people who make Namdapha House possible
-                </p>
-              </div>
+            
             </div>
           </div>
         </Layout>
