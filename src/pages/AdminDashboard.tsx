@@ -1,22 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useUser, UserButton } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
+import { FaLink, FaBook, FaUsers, FaHome, FaCalendarAlt } from "react-icons/fa";
 
-// List of allowed admin emails
-const allowedEmails = ["shivangk512@gmail.com", "your@email.com"];
+const allowedEmails = ["shivangk512@gmail.com", "namdapha-webad@ds.study.iitm.ac.in"];
+
+const sectionCards = [
+  { title: "Important Links", route: "/admin/important-links", icon: <FaLink size={40} /> },
+  { title: "Resource Hub", route: "/admin/resource-hub", icon: <FaBook size={40} /> },
+  { title: "Teams", route: "/admin/teams", icon: <FaUsers size={40} /> },
+  { title: "House Council", route: "/admin/house-council", icon: <FaHome size={40} /> },
+  { title: "Events", route: "/admin/events", icon: <FaCalendarAlt size={40} /> },
+];
 
 const AdminDashboard: React.FC = () => {
   const { user } = useUser();
+  const navigate = useNavigate();
 
   // Block access if not allowed
   if (!user || !allowedEmails.includes(user.emailAddresses[0]?.emailAddress)) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="bg-white p-10 rounded-2xl shadow-2xl border border-gray-200 w-full max-w-sm text-center">
-          <h2 className="text-2xl font-bold mb-4 text-gray-800">Access Denied</h2>
-          <p className="text-gray-600 mb-6">You do not have permission to view this page.</p>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white via-gray-100 to-gray-200">
+        <div className="backdrop-blur-lg bg-white/70 p-10 rounded-2xl shadow-2xl border border-gray-200 w-full max-w-sm text-center animate-fade-in">
+          <h2 className="text-2xl font-bold mb-4 text-gray-900">Access Denied</h2>
+          <p className="text-gray-700 mb-6">You do not have permission to view this page.</p>
           <button
             onClick={() => window.Clerk?.signOut(() => window.location.href = "/admin")}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow transition-all duration-200"
+            className="bg-gradient-to-r from-black to-gray-700 hover:from-gray-700 hover:to-black text-white font-semibold px-6 py-2 rounded-lg shadow transition-all duration-200"
           >
             Sign Out & Go to Login
           </button>
@@ -25,177 +35,99 @@ const AdminDashboard: React.FC = () => {
     );
   }
 
-  const [resources, setResources] = useState<Resource[]>([]);
-  const [form, setForm] = useState<Partial<Resource>>({});
-  const [editingId, setEditingId] = useState<number | null>(null);
-
-  useEffect(() => {
-    fetch("http://localhost:5050/api/resources")
-      .then((res) => res.json())
-      .then(setResources);
-  }, []);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    let updatedResources;
-    if (editingId !== null) {
-      updatedResources = resources.map((r) =>
-        r.id === editingId ? { ...r, ...form, id: editingId } : r
-      );
-    } else {
-      const newId = resources.length ? Math.max(...resources.map(r => r.id)) + 1 : 1;
-      updatedResources = [...resources, { ...form, id: newId } as Resource];
-    }
-    fetch('http://localhost:5050/api/resources', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedResources),
-    }).then(() => {
-      setResources(updatedResources);
-      setForm({});
-      setEditingId(null);
-    });
-  };
-
-  const handleEdit = (resource: Resource) => {
-    setForm(resource);
-    setEditingId(resource.id);
-  };
-
-  const handleDelete = (id: number) => {
-    const updatedResources = resources.filter((r) => r.id !== id);
-    fetch('http://localhost:5050/api/resources', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedResources),
-    }).then(() => {
-      setResources(updatedResources);
-      setForm({});
-      setEditingId(null);
-    });
-  };
-
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Navbar */}
-      <nav className="bg-white shadow flex items-center justify-between px-8 py-4 mb-8">
-        <span className="text-xl font-bold text-purple-700">Admin Dashboard</span>
-        <div className="flex items-center gap-2">
-          {user && (
-            <>
-              <span className="text-gray-700 font-medium">{user.fullName || user.emailAddresses[0]?.emailAddress}</span>
-              <UserButton afterSignOutUrl="/admin" />
-            </>
-          )}
+    <div className="min-h-screen bg-gradient-to-br from-white via-gray-100 to-gray-200 flex flex-col">
+      {/* Navbar with logo (hidden on small screens) and left-side dashboard title */}
+      <nav className="backdrop-blur-lg bg-white/80 shadow-lg flex items-center justify-between px-6 py-2 mb-8 rounded-b-2xl animate-slide-down w-full fixed top-0 left-0 right-0 border-b border-gray-200 z-10">
+        {/* Left: Admin Dashboard title */}
+        <span className="text-xl font-extrabold text-gray-900 tracking-wide drop-shadow-lg">Admin Dashboard</span>
+        {/* Center: Logo (hidden on small screens) */}
+        <div className="hidden md:flex flex-shrink-0 items-center justify-center">
+          <img
+            src="https://res.cloudinary.com/dogq9gvo8/image/upload/v1754390919/1000073005-modified_a0ou2c.png"
+            alt="Logo"
+            className="w-12 h-12 rounded-full border-2 border-gray-300 shadow-lg bg-white/60"
+            style={{ objectFit: "cover" }}
+          />
+        </div>
+        {/* Right: User info and Clerk button */}
+        <div className="flex items-center gap-3">
+          <span className="text-gray-900 font-semibold text-base">{user.fullName || user.emailAddresses[0]?.emailAddress}</span>
+          <UserButton afterSignOutUrl="/admin" />
         </div>
       </nav>
 
-      <div className="max-w-3xl mx-auto py-12 px-4">
-        <form onSubmit={handleSubmit} className="mb-8 bg-black/20 p-6 rounded-xl">
-          <input
-            name="title"
-            value={form.title || ""}
-            onChange={handleChange}
-            placeholder="Title"
-            className="w-full mb-2 p-2 rounded"
-            required
-          />
-          <textarea
-            name="description"
-            value={form.description || ""}
-            onChange={handleChange}
-            placeholder="Description"
-            className="w-full mb-2 p-2 rounded"
-          />
-          <select
-            name="type"
-            value={form.type || ""}
-            onChange={handleChange}
-            className="w-full mb-2 p-2 rounded"
-            required
-          >
-            <option value="">Select Type</option>
-            <option value="document">Document</option>
-            <option value="link">Link</option>
-            <option value="book">Book</option>
-            <option value="video">Video</option>
-            <option value="whatsapp">WhatsApp</option>
-          </select>
-          <input
-            name="url"
-            value={form.url || ""}
-            onChange={handleChange}
-            placeholder="URL"
-            className="w-full mb-2 p-2 rounded"
-          />
-          <input
-            type="date"
-            name="dateAdded"
-            value={form.dateAdded || ""}
-            onChange={handleChange}
-            className="w-full mb-2 p-2 rounded"
-          />
-          <select
-            name="category"
-            value={form.category || ""}
-            onChange={handleChange}
-            className="w-full mb-2 p-2 rounded"
-            required
-          >
-            <option value="">Select Category</option>
-            <option value="General">General</option>
-            <option value="WhatsApp">WhatsApp</option>
-            <option value="Books">Books</option>
-            <option value="Videos">Videos</option>
-            <option value="Documents">Documents</option>
-            <option value="Links">Links</option>
-          </select>
-          <input
-            name="internalPath"
-            value={form.internalPath || ""}
-            onChange={handleChange}
-            placeholder="Internal Path (optional)"
-            className="w-full mb-2 p-2 rounded"
-          />
-          <button type="submit" className="bg-purple-600 text-white px-4 py-2 rounded">
-            {editingId !== null ? "Update Resource" : "Add Resource"}
-          </button>
-        </form>
-        <div>
-          <h2 className="text-xl font-semibold mb-4">Resources</h2>
-          <ul>
-            {resources.map((resource) => (
-              <li key={resource.id} className="mb-4 p-4 bg-black/10 rounded flex justify-between items-center">
-                <div>
-                  <div className="font-bold">{resource.title}</div>
-                  <div className="text-sm">{resource.description}</div>
-                  <div className="text-xs text-gray-400">
-                    {resource.type} | {resource.category} | Date Added: {resource.dateAdded}
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleEdit(resource)}
-                    className="bg-blue-500 text-white px-2 py-1 rounded"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(resource.id)}
-                    className="bg-red-500 text-white px-2 py-1 rounded"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
+      {/* Animated Heading */}
+      <div className="w-full flex justify-center mt-32 mb-6 px-2">
+        <h1
+          className="animate-gradient-text text-center text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight"
+          style={{
+            fontFamily: "'Montserrat', 'Poppins', 'Segoe UI', Arial, sans-serif",
+            background: "linear-gradient(90deg, #6366f1, #a78bfa, #818cf8, #6366f1)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}
+        >
+          Namdapha House Website Content Management System
+        </h1>
+      </div>
+
+      {/* Cards Section */}
+      <div className="flex-1 flex items-center justify-center pt-4 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-4xl px-4 sm:px-6 md:px-8 py-8">
+          {sectionCards.map((card, idx) => (
+            <div
+              key={card.title}
+              className="relative bg-white/60 backdrop-blur-lg border border-gray-200 shadow-xl rounded-2xl p-6 sm:p-8 m-2 flex flex-col items-center justify-center cursor-pointer transition-transform duration-300 hover:scale-105 hover:bg-white/80 animate-fade-in"
+              style={{ animationDelay: `${idx * 0.1}s` }}
+              onClick={() => navigate(card.route)}
+            >
+              <div className="mb-4 text-indigo-600 drop-shadow-lg">{card.icon}</div>
+              <h2 className="text-lg font-bold text-gray-900 mb-2 text-center">{card.title}</h2>
+              <p className="text-gray-700 text-center mb-4">Update or manage {card.title.toLowerCase()} here.</p>
+              <span className="absolute top-4 right-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg animate-pulse">Admin</span>
+            </div>
+          ))}
         </div>
       </div>
+
+      {/* Animations */}
+      <style>
+        {`
+          .animate-fade-in {
+            animation: fadeIn 0.7s ease both;
+          }
+          @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+          }
+          .animate-slide-down {
+            animation: slideDown 0.7s cubic-bezier(.68,-0.55,.27,1.55) both;
+          }
+          @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-40px);}
+            to { opacity: 1; transform: translateY(0);}
+          }
+          .animate-pulse {
+            animation: pulse 1.5s infinite;
+          }
+          @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(99,102,241,0.7);}
+            70% { box-shadow: 0 0 0 10px rgba(99,102,241,0);}
+            100% { box-shadow: 0 0 0 0 rgba(99,102,241,0);}
+          }
+          .animate-gradient-text {
+            background-size: 200% 200%;
+            animation: gradientMove 3s ease-in-out infinite;
+          }
+          @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+        `}
+      </style>
     </div>
   );
 };

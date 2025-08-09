@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from './Navbar';
+import FloatingChatbot from './ui/FloatingChatbot'; // <-- Import here
 
 const Layout: React.FC<{ children: React.ReactNode; bgImage?: string | null }> = ({ 
   children, 
@@ -45,6 +46,9 @@ const Layout: React.FC<{ children: React.ReactNode; bgImage?: string | null }> =
         <div className="max-w-full sm:max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto px-6 py-12">
           {children}
         </div>
+
+        {/* Floating Chatbot - appears on every page */}
+        <FloatingChatbot />
       </div>
     </div>
   );

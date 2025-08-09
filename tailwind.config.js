@@ -17,7 +17,8 @@ export default {
   		animation: {
   			in: 'in 0.6s ease-out',
   			'slide-in-from-bottom-4': 'slide-in-from-bottom-4 0.6s ease-out',
-  			gradient: 'gradient 15s ease infinite'
+  			gradient: 'gradient 15s ease infinite',
+  			'fade-in-up': 'fade-in-up 0.6s cubic-bezier(0.77,0,0.175,1) both',
   		},
   		keyframes: {
   			in: {
@@ -47,7 +48,17 @@ export default {
   				'50%': {
   					backgroundPosition: '100% 50%'
   				}
-  			}
+  			},
+  			'fade-in-up': {
+  				'0%': {
+  					opacity: '0',
+  					transform: 'translateY(32px) scale(0.98)',
+  				},
+  				'100%': {
+  					opacity: '1',
+  					transform: 'translateY(0) scale(1)',
+  				},
+  			},
   		},
   		backdropBlur: {
   			xs: '2px'
@@ -99,7 +110,17 @@ export default {
   				'5': 'hsl(var(--chart-5))'
   			},
   			screens: {
-  				xs: '400px', // or your preferred value
+  				xs: '400px'
+  			},
+  			sidebar: {
+  				DEFAULT: 'hsl(var(--sidebar-background))',
+  				foreground: 'hsl(var(--sidebar-foreground))',
+  				primary: 'hsl(var(--sidebar-primary))',
+  				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+  				accent: 'hsl(var(--sidebar-accent))',
+  				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+  				border: 'hsl(var(--sidebar-border))',
+  				ring: 'hsl(var(--sidebar-ring))'
   			}
   		}
   	}

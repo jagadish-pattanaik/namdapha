@@ -10,6 +10,28 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Upcoming Events
+app.get('/api/upcoming-events', (req, res) => {
+  const data = fs.readFileSync('./src/data/upcomingEvents.json');
+  res.json(JSON.parse(data));
+});
+
+app.post('/api/upcoming-events', (req, res) => {
+  fs.writeFileSync('./src/data/upcomingEvents.json', JSON.stringify(req.body, null, 2));
+  res.json({ success: true });
+});
+
+// Past Events
+app.get('/api/past-events', (req, res) => {
+  const data = fs.readFileSync('./src/data/pastEvents.json');
+  res.json(JSON.parse(data));
+});
+
+app.post('/api/past-events', (req, res) => {
+  fs.writeFileSync('./src/data/pastEvents.json', JSON.stringify(req.body, null, 2));
+  res.json({ success: true });
+});
+
 app.get('/api/resources', (req, res) => {
   const data = fs.readFileSync('./src/data/resources.json');
   res.json(JSON.parse(data));

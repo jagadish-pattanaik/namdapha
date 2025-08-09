@@ -30,8 +30,7 @@ const ImpLinks = () => {
         {/* Navbar */}
         <Navbar />
 
-        {/* Theme Toggle */}
-        <ThemeToggle />
+      
 
         {/* Main Content */}
         <div className="max-w-full sm:max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto px-6 py-12">
@@ -84,15 +83,9 @@ const ImpLinks = () => {
           </div>
         </div>
 
-        {/* Floating Contact Button */}
-        <FloatingContactButton onClick={() => setIsContactModalOpen(true)} />
+     
 
-        {/* Contact Modal */}
-        <ContactModal
-          isOpen={isContactModalOpen}
-          onClose={() => setIsContactModalOpen(false)}
-          contactEmail={profileConfig.contactEmail}
-        />
+       
       </div>
     </div>
   );
