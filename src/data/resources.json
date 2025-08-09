@@ -8,5 +8,35 @@
     "category": "Documents",
     "internalPath": "",
     "id": 1
+  },
+  {
+    "title": "PYQS 2024",
+    "description": "GAMES",
+    "type": "document",
+    "url": "#",
+    "dateAdded": "2025-08-05",
+    "category": "Books",
+    "internalPath": "",
+    "id": 2
+  },
+  {
+    "title": "GAMES2",
+    "description": "",
+    "type": "link",
+    "url": "",
+    "dateAdded": "",
+    "category": "Books",
+    "internalPath": "",
+    "id": 3
+  },
+  {
+    "title": "Join Whatsapp group",
+    "description": "",
+    "type": "link",
+    "url": "",
+    "dateAdded": "",
+    "category": "WhatsApp",
+    "internalPath": "",
+    "id": 4
   }
 ]

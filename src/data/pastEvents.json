@@ -1,5 +1,16 @@
 [
   {
+    "title": "Oppe 2 ",
+    "description": "",
+    "date": "2025-08-09",
+    "time": "22:51",
+    "location": "Google Meet",
+    "category": "Exam",
+    "addedBy": "Shivang Saraswat",
+    "visible": true,
+    "id": 2
+  },
+  {
     "title": "vxvxvcvxcvcxv",
     "description": "cxvxv",
     "date": "2025-07-28",
@@ -65,5 +76,16 @@
     "addedBy": "Shivang Saraswat",
     "visible": true,
     "id": 11
+  },
+  {
+    "title": "House Event",
+    "description": "zcvsd",
+    "date": "2025-08-08",
+    "time": "",
+    "location": "Google Meet",
+    "category": "Fun",
+    "addedBy": "Shivang Saraswat",
+    "visible": true,
+    "id": 12
   }
 ]

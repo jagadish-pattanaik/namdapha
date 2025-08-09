@@ -13,7 +13,8 @@ import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminImportantLinks from './pages/AdminImportantLinks';
 import AdminResourceHub from './pages/AdminResourceHub';
-import AdminEvents from "./pages/adminEvents";
+import AdminEvents from "./pages/AdminEvents";
+import AdminSettings from './pages/Adminsetting'; // Import your settings page
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
         <Route path="/admin/important-links" element={<AdminImportantLinks />} />
         <Route path="/admin/resource-hub" element={<AdminResourceHub />} />
         <Route path="/admin/events" element={<AdminEvents />} />
+        <Route path="/admin/settings" element={<AdminSettings />} />
       </Routes>
       <Toaster />
     </>
