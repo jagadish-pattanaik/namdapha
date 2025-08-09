@@ -21,5 +21,49 @@
     "visible": true,
     "meetLink": " cx x",
     "id": 7
+  },
+  {
+    "title": "Hacksprint",
+    "description": "",
+    "date": "2025-08-08",
+    "time": "",
+    "location": "Google Meet",
+    "category": "Hackathon",
+    "addedBy": "Shivang Saraswat",
+    "visible": true,
+    "id": 8
+  },
+  {
+    "title": "Cars 3",
+    "description": "",
+    "date": "2025-08-08",
+    "time": "",
+    "location": "Google Meet",
+    "category": "Movies",
+    "addedBy": "Shivang Saraswat",
+    "visible": true,
+    "id": 9
+  },
+  {
+    "title": "Inter House Debate Event",
+    "description": "",
+    "date": "2025-08-06",
+    "time": "",
+    "location": "Google Meet",
+    "category": "Event",
+    "addedBy": "Shivang Saraswat",
+    "visible": true,
+    "id": 10
+  },
+  {
+    "title": "Games",
+    "description": "",
+    "date": "2025-08-07",
+    "time": "",
+    "location": "Google Meet",
+    "category": "Sport",
+    "addedBy": "Shivang Saraswat",
+    "visible": true,
+    "id": 11
   }
 ]

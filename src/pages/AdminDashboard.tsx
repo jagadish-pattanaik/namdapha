@@ -3,7 +3,7 @@ import { useUser, UserButton } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import { FaLink, FaBook, FaUsers, FaHome, FaCalendarAlt } from "react-icons/fa";
 
-const allowedEmails = ["shivangk512@gmail.com", "namdapha-webad@ds.study.iitm.ac.in"];
+const allowedEmails = ["shivangk512@gmail.com", "namdapha-webad@ds.study.iitm.ac.in", "25f2000910@ds.study.iitm.ac.in"];
 
 const sectionCards = [
   { title: "Important Links", route: "/admin/important-links", icon: <FaLink size={40} /> },
