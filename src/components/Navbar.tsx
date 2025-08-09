@@ -87,24 +87,24 @@ const Navbar = () => {
         }`}
       >
         <div 
-          className={`backdrop-blur-md text-white rounded-3xl px-4 sm:px-8 w-full max-w-6xl flex justify-between items-center border border-white/30 relative transition-all duration-300 ${
+          className={`backdrop-blur-md text-gray-800 rounded-3xl px-4 sm:px-8 w-full max-w-6xl flex justify-between items-center border border-gray-300/50 relative transition-all duration-300 ${
             isScrolled 
-              ? 'h-16 bg-black/90 shadow-xl shadow-black/50' 
-              : 'h-24 bg-black/40'
+              ? 'h-16 bg-white/90 shadow-xl shadow-gray-400/20' 
+              : 'h-24 bg-white/60'
           }`}
         >
           {/* Desktop Nav - Left (hidden on mobile) */}
           <div className="hidden md:flex space-x-10 font-fantasy text-lg">
-            <Link to="/about" className="text-white hover:text-purple-400 transition">About Us</Link>
-            <Link to="/house-council" className="text-white hover:text-purple-400 transition">House Council</Link>
-            <Link to="/teams" className="text-white hover:text-purple-400 transition">Teams</Link>
+            <Link to="/about" className="text-gray-700 hover:text-purple-600 transition font-medium">About Us</Link>
+            <Link to="/house-council" className="text-gray-700 hover:text-purple-600 transition font-medium">House Council</Link>
+            <Link to="/teams" className="text-gray-700 hover:text-purple-600 transition font-medium">Teams</Link>
           </div>
 
           {/* Left side on mobile */}
           <div className="flex md:hidden">
             <Link to="/home">
               <div 
-                className={`p-1 rounded-full backdrop-blur-md bg-white/20 border border-white/30 shadow-lg flex items-center justify-center transition-all duration-300 ${
+                className={`p-1 rounded-full backdrop-blur-md bg-purple-100/80 border border-purple-200/50 shadow-lg flex items-center justify-center transition-all duration-300 ${
                   isScrolled ? 'h-10 w-10' : 'h-12 w-12'
                 }`}
               >
@@ -123,7 +123,7 @@ const Navbar = () => {
           <div className="hidden md:flex h-full items-center justify-center px-2">
             <Link to="/home">
               <div 
-                className={`p-1 rounded-full backdrop-blur-md bg-white/20 border border-white/30 shadow-lg flex items-center justify-center transition-all duration-300 ${
+                className={`p-1 rounded-full backdrop-blur-md bg-purple-100/80 border border-purple-200/50 shadow-lg flex items-center justify-center transition-all duration-300 ${
                   isScrolled ? 'h-12 w-12' : 'h-20 w-20'
                 }`}
               >
@@ -141,7 +141,7 @@ const Navbar = () => {
           {/* Namdapha House - Center on mobile */}
           <div className="flex md:hidden items-center justify-center">
             <h1 
-              className={`font-bold text-white text-center transition-all duration-300 ${
+              className={`font-bold text-gray-800 text-center transition-all duration-300 ${
                 isScrolled ? 'text-lg' : 'text-xl'
               }`}
             >
@@ -153,9 +153,9 @@ const Navbar = () => {
 
           {/* Desktop Nav - Right (hidden on mobile) */}
           <div className="hidden md:flex space-x-10 font-fantasy text-lg items-center">
-            <Link to="/resource-hub" className="text-white hover:text-purple-400 transition">Resource Hub</Link>
-            <Link to="/events" className="text-white hover:text-purple-400 transition">Events</Link>
-            <Link to="/chat-bot" className="bg-purple-600/70 hover:bg-purple-600 px-4 py-1.5 rounded-full text-white transition-colors border border-purple-400/50 shadow-md shadow-purple-500/20 pulse-subtle">Chat Bot</Link>
+            <Link to="/resource-hub" className="text-gray-700 hover:text-purple-600 transition font-medium">Resource Hub</Link>
+            <Link to="/events" className="text-gray-700 hover:text-purple-600 transition font-medium">Events</Link>
+            <Link to="/chat-bot" className="bg-purple-600 hover:bg-purple-700 px-4 py-1.5 rounded-full text-white transition-colors shadow-md shadow-purple-500/25">Chat Bot</Link>
           </div>
 
           {/* Hamburger Menu Icon - Mobile Only */}
@@ -174,7 +174,7 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[999]" onClick={() => setIsOpen(false)}>
           <div 
-            className="absolute top-20 left-4 right-4 bg-black/90 backdrop-blur-lg rounded-2xl px-6 py-8 flex flex-col items-center space-y-6 shadow-xl shadow-black/50 border border-white/10"
+            className="absolute top-20 left-4 right-4 bg-white/95 backdrop-blur-lg rounded-2xl px-6 py-8 flex flex-col items-center space-y-6 shadow-xl shadow-gray-500/20 border border-gray-200/50"
             onClick={(e) => e.stopPropagation()}
           >
             <Link 
@@ -190,11 +190,11 @@ const Navbar = () => {
             
             <div className="w-2/3 h-px bg-white/10"></div>
             
-            <Link to="/about" className="text-white hover:text-purple-400 transition-all duration-200 hover:translate-x-1 text-lg" onClick={() => setIsOpen(false)}>About Us</Link>
-            <Link to="/house-council" className="text-white hover:text-purple-400 transition-all duration-200 hover:translate-x-1 text-lg" onClick={() => setIsOpen(false)}>House Council</Link>
-            <Link to="/teams" className="text-white hover:text-purple-400 transition-all duration-200 hover:translate-x-1 text-lg" onClick={() => setIsOpen(false)}>Teams</Link>
-            <Link to="/resource-hub" className="text-white hover:text-purple-400 transition-all duration-200 hover:translate-x-1 text-lg" onClick={() => setIsOpen(false)}>Resource Hub</Link>
-            <Link to="/events" className="text-white hover:text-purple-400 transition-all duration-200 hover:translate-x-1 text-lg" onClick={() => setIsOpen(false)}>Events</Link>
+            <Link to="/about" className="text-gray-800 hover:text-purple-600 transition-all duration-200 hover:translate-x-1 text-lg font-medium" onClick={() => setIsOpen(false)}>About Us</Link>
+            <Link to="/house-council" className="text-gray-800 hover:text-purple-600 transition-all duration-200 hover:translate-x-1 text-lg font-medium" onClick={() => setIsOpen(false)}>House Council</Link>
+            <Link to="/teams" className="text-gray-800 hover:text-purple-600 transition-all duration-200 hover:translate-x-1 text-lg font-medium" onClick={() => setIsOpen(false)}>Teams</Link>
+            <Link to="/resource-hub" className="text-gray-800 hover:text-purple-600 transition-all duration-200 hover:translate-x-1 text-lg font-medium" onClick={() => setIsOpen(false)}>Resource Hub</Link>
+            <Link to="/events" className="text-gray-800 hover:text-purple-600 transition-all duration-200 hover:translate-x-1 text-lg font-medium" onClick={() => setIsOpen(false)}>Events</Link>
             
             <Link 
               to="/chat-bot" 
@@ -205,7 +205,7 @@ const Navbar = () => {
             </Link>
             
             <button 
-              className="absolute top-2 right-2 text-white/70 hover:text-white p-2"
+              className="absolute top-2 right-2 text-gray-600 hover:text-gray-800 p-2"
               onClick={() => setIsOpen(false)}
             >
               <X size={20} />

@@ -362,13 +362,13 @@ function AboutUs() {
             <div className="relative z-10">
               {/* Page Header */}
               <div className="text-center mb-16">
-                <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-300">
+                <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-800 mb-6">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
                     About Us
                   </span>
                 </h1>
                 <div className="w-32 sm:w-40 md:w-48 h-1 bg-gradient-to-r from-purple-400 to-purple-600 mx-auto"></div>
-                <p className="font-sans text-lg sm:text-xl text-white/80 max-w-3xl mx-auto mt-6">
+                <p className="font-sans text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto mt-6">
                   Discover the story, values, and community that make Namdapha House a unique home away from home.
                 </p>
               </div>
@@ -378,56 +378,56 @@ function AboutUs() {
                 {/* Left content */}
                 <div className="flex flex-col justify-start space-y-8">
                   <div className="space-y-6">
-                    <p className="text-white/80 text-lg leading-relaxed">
+                    <p className="text-gray-700 text-lg leading-relaxed">
                       Namdapha House is more than just a residential community—it's a vibrant ecosystem where students from diverse backgrounds come together to learn, grow, and connect.
                     </p>
-                    <p className="text-white/80 text-lg leading-relaxed">
+                    <p className="text-gray-700 text-lg leading-relaxed">
                       Named after the Namdapha National Park in Arunachal Pradesh, our house embodies the spirit of biodiversity, resilience, and unity that the park represents.
                     </p>
-                    <p className="text-white/80 text-lg leading-relaxed">
+                    <p className="text-gray-700 text-lg leading-relaxed">
                       Our mission is to cultivate an inclusive environment that fosters academic excellence, personal development, and lifelong friendships among our residents.
                     </p>
                   </div>
                   
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="bg-black/40 backdrop-blur-xl p-6 rounded-xl border border-white/10">
+                    <div className="bg-white/40 backdrop-blur-xl p-6 rounded-xl border border-purple-200/30 shadow-lg shadow-purple-500/10">
                       <div className="w-12 h-12 bg-purple-600/50 rounded-full flex items-center justify-center mb-4">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
                         </svg>
                       </div>
-                      <h4 className="text-white font-display font-semibold text-lg mb-2">Diverse Community</h4>
-                      <p className="text-white/70 text-sm">Students from all walks of life</p>
+                      <h4 className="text-gray-800 font-display font-semibold text-lg mb-2">Diverse Community</h4>
+                      <p className="text-gray-600 text-sm">Students from all walks of life</p>
                     </div>
                     
-                    <div className="bg-black/40 backdrop-blur-xl p-6 rounded-xl border border-white/10">
+                    <div className="bg-white/40 backdrop-blur-xl p-6 rounded-xl border border-purple-200/30 shadow-lg shadow-purple-500/10">
                       <div className="w-12 h-12 bg-purple-600/50 rounded-full flex items-center justify-center mb-4">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                         </svg>
                       </div>
-                      <h4 className="text-white font-display font-semibold text-lg mb-2">Innovation Hub</h4>
-                      <p className="text-white/70 text-sm">Fostering creative solutions</p>
+                      <h4 className="text-gray-800 font-display font-semibold text-lg mb-2">Innovation Hub</h4>
+                      <p className="text-gray-600 text-sm">Fostering creative solutions</p>
                     </div>
                     
-                    <div className="bg-black/40 backdrop-blur-xl p-6 rounded-xl border border-white/10">
+                    <div className="bg-white/40 backdrop-blur-xl p-6 rounded-xl border border-purple-200/30 shadow-lg shadow-purple-500/10">
                       <div className="w-12 h-12 bg-purple-600/50 rounded-full flex items-center justify-center mb-4">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>
                       </div>
-                      <h4 className="text-white font-display font-semibold text-lg mb-2">Community Support</h4>
-                      <p className="text-white/70 text-sm">Always here for each other</p>
+                      <h4 className="text-gray-800 font-display font-semibold text-lg mb-2">Community Support</h4>
+                      <p className="text-gray-600 text-sm">Always here for each other</p>
                     </div>
                     
-                    <div className="bg-black/40 backdrop-blur-xl p-6 rounded-xl border border-white/10">
+                    <div className="bg-white/40 backdrop-blur-xl p-6 rounded-xl border border-purple-200/30 shadow-lg shadow-purple-500/10">
                       <div className="w-12 h-12 bg-purple-600/50 rounded-full flex items-center justify-center mb-4">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
                       </div>
-                      <h4 className="text-white font-display font-semibold text-lg mb-2">Academic Excellence</h4>
-                      <p className="text-white/70 text-sm">Striving for the best</p>
+                      <h4 className="text-gray-800 font-display font-semibold text-lg mb-2">Academic Excellence</h4>
+                      <p className="text-gray-600 text-sm">Striving for the best</p>
                     </div>
                   </div>
                 </div>

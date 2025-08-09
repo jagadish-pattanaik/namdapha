@@ -116,11 +116,11 @@ const AnimatedValueCard = () => {
         <div className="flex gap-4">
           <button
             onClick={handlePrev}
-            className="group/button flex h-12 w-12 items-center justify-center rounded-full bg-black/60 backdrop-blur-md border border-white/30 hover:bg-black/80 hover:border-purple-400 transition-all duration-200 shadow-lg"
+            className="group/button flex h-12 w-12 items-center justify-center rounded-full bg-white/80 backdrop-blur-md border border-purple-200/50 hover:bg-white/90 hover:border-purple-400 transition-all duration-200 shadow-lg shadow-purple-500/15"
           >
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
-              className="h-6 w-6 text-white transition-transform duration-300 group-hover/button:-translate-x-1" 
+              className="h-6 w-6 text-purple-700 transition-transform duration-300 group-hover/button:-translate-x-1" 
               fill="none" 
               viewBox="0 0 24 24" 
               stroke="currentColor"
@@ -130,11 +130,11 @@ const AnimatedValueCard = () => {
           </button>
           <button
             onClick={handleNext}
-            className="group/button flex h-12 w-12 items-center justify-center rounded-full bg-black/60 backdrop-blur-md border border-white/30 hover:bg-black/80 hover:border-purple-400 transition-all duration-200 shadow-lg"
+            className="group/button flex h-12 w-12 items-center justify-center rounded-full bg-white/80 backdrop-blur-md border border-purple-200/50 hover:bg-white/90 hover:border-purple-400 transition-all duration-200 shadow-lg shadow-purple-500/15"
           >
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
-              className="h-6 w-6 text-white transition-transform duration-300 group-hover/button:translate-x-1" 
+              className="h-6 w-6 text-purple-700 transition-transform duration-300 group-hover/button:translate-x-1" 
               fill="none" 
               viewBox="0 0 24 24" 
               stroke="currentColor"
@@ -152,8 +152,8 @@ const AnimatedValueCard = () => {
               onClick={() => setActive(index)}
               className={`h-3 rounded-full transition-all duration-300 ${
                 isActive(index) 
-                  ? 'w-10 bg-purple-500 shadow-lg shadow-purple-500/50' 
-                  : 'w-3 bg-white/40 hover:bg-white/60 hover:w-6'
+                  ? 'w-10 bg-purple-600 shadow-lg shadow-purple-600/50' 
+                  : 'w-3 bg-gray-300 hover:bg-gray-400 hover:w-6'
               }`}
             />
           ))}
@@ -287,19 +287,15 @@ function LandingPage() {
   }, []);
 
   return (
-    <div className="min-h-screen relative bg-black">
-      {/* HERO SECTION - Tree background with center image */}
+    <Layout>
+      {/* HERO SECTION - Clean light background */}
       <div className="relative min-h-screen">
-        {/* Full background trees image - only for hero section */}
+        {/* Subtle background overlay */}
         <div 
           className="absolute inset-0 z-[1] transition-transform duration-100"
           style={{
-            backgroundImage: `url(https://res.cloudinary.com/dogq9gvo8/image/upload/v1754394299/20250728_1415_Indian_Subcontinent_Trees_remix_01k1835p9df9a9pvr4h1dtftz4_xdzp1e.png)`,
-            transform: `translateY(${scrollY * 0.3}px)`,
-            backgroundPosition: 'center top',
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat',
-            opacity: 0.4,
+            transform: `translateY(${scrollY * 0.1}px)`,
+            background: 'transparent',
           }}
         />
         
@@ -310,17 +306,16 @@ function LandingPage() {
           style={{ filter: 'blur(2px)' }}
         />
         
-        <Layout bgImage={null}>
-          <div className="relative z-[3]">
+        <div className="relative z-[3]">
             {/* Header Section */}
             <div className="text-center mb-8 sm:mb-12 pt-16 sm:pt-20 px-4 sm:px-6 md:px-8 lg:px-12">
-              <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-4 animate-fadeIn">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-300">
+              <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-800 mb-4 animate-fadeIn">
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600">
                   Namdapha House
                 </span>
               </h1>
               
-              <p className="font-sans text-base sm:text-lg text-white/80 max-w-2xl mx-auto animate-fadeInUp" 
+              <p className="font-sans text-base sm:text-lg text-gray-600 max-w-2xl mx-auto animate-fadeInUp" 
                   style={{ animationDelay: '0.2s' }}>
                 General Student Body, IIT Madras
               </p>
@@ -349,54 +344,37 @@ function LandingPage() {
               {/* Bottom shadow gradient for smooth transition */}
               <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-20"></div>
               
-            
             </div>
-          </div>
-        </Layout>
+        </div>
       </div>
 
       {/* ABOUT US SECTION - Overlaps hero section with enhanced shadow */}
-      <div className="relative bg-black -mt-48 sm:-mt-56 md:-mt-64 lg:-mt-72 z-[4]" style={{ paddingTop: '12rem' }}>
-        {/* Top shadow effect for depth */}
-        <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-transparent via-black/60 to-black z-[4]"></div>
-        
-        {/* Enhanced shadow layer for better separation */}
-        <div className="absolute top-0 left-0 right-0 h-16 shadow-2xl shadow-black/60 z-[3]"></div>
-        
-        {/* Main black background with subtle parallax */}
-        <div 
-          className="absolute inset-0 bg-black"
-          style={{
-            transform: `translateY(${scrollY * 0.01}px)`,
-          }}
-        />
-        
-        {/* Subtle inner shadow for depth */}
-        <div className="absolute inset-0 shadow-inner shadow-black/40"></div>
+      <div className="relative z-[4]" style={{ paddingTop: '8rem' }}>
+        {/* Light theme - no shadows needed */}
         
         <div className="relative z-[5] py-16 sm:py-20 md:py-24 lg:py-28">
           <div className="px-4 sm:px-6 md:px-8 lg:px-12">
             {/* About Us Section */}
             <div className="mb-20 sm:mb-24 md:mb-28 animate-fadeInUp" style={{ animationDelay: '0.4s' }}>
               <div className="text-center mb-10 sm:mb-12">
-                <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white">
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-300">
+                <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
                     About Us
                   </span>
                 </h2>
-                <div className="w-24 sm:w-32 md:w-40 h-1 bg-gradient-to-r from-purple-400 to-purple-600 mx-auto mt-3"></div>
+                <div className="w-24 sm:w-32 md:w-40 h-1 bg-gradient-to-r from-purple-500 to-indigo-600 mx-auto mt-3"></div>
               </div>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 md:gap-16 max-w-7xl mx-auto">
                 {/* Left content */}
                 <div className="flex flex-col justify-start space-y-6">
-                  <p className="text-white/80 text-base sm:text-lg leading-relaxed">
+                  <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
                     Namdapha House is more than just a residential community—it's a vibrant ecosystem where students from diverse backgrounds come together to learn, grow, and connect.
                   </p>
-                  <p className="text-white/80 text-base sm:text-lg leading-relaxed">
+                  <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
                     Named after the Namdapha National Park in Arunachal Pradesh, our house embodies the spirit of biodiversity, resilience, and unity that the park represents.
                   </p>
-                  <p className="text-white/80 text-base sm:text-lg leading-relaxed">
+                  <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
                     Our mission is to cultivate an inclusive environment that fosters academic excellence, personal development, and lifelong friendships among our residents.
                   </p>
                   
@@ -454,7 +432,7 @@ function LandingPage() {
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 

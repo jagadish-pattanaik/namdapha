@@ -166,12 +166,12 @@ const HouseCouncil = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 sm:mb-4 md:mb-6">
+              <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-3 sm:mb-4 md:mb-6">
                 House Council
               </h1>
               <div className="w-16 sm:w-20 md:w-24 h-1 bg-purple-500 mx-auto mb-2 sm:mb-3 md:mb-4"></div>
-              <div className="text-lg sm:text-xl md:text-2xl font-semibold text-purple-300 mb-2 sm:mb-3 md:mb-4">2025-26</div>
-              <p className="text-white/70 text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-2 sm:px-4">
+              <div className="text-lg sm:text-xl md:text-2xl font-semibold text-purple-600 mb-2 sm:mb-3 md:mb-4">2025-26</div>
+              <p className="text-gray-700 text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-2 sm:px-4">
                 Meet the dedicated leaders who guide our house community.
               </p>
             </motion.div>
@@ -290,11 +290,11 @@ const HouseCouncil = () => {
             >
               {/* Regional Coordinators Header */}
               <div className="text-center mb-8 sm:mb-10 px-3 sm:px-4 md:px-6 lg:px-8">
-                <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4">
+                <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-3 sm:mb-4">
                   Regional Coordinators
                 </h2>
                 <div className="w-16 sm:w-20 md:w-24 h-1 bg-orange-500 mx-auto mb-3 sm:mb-4"></div>
-                <p className="text-white/70 text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-2 sm:px-4">
+                <p className="text-gray-700 text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-2 sm:px-4">
                   Connecting communities across different regions and fostering unity.
                 </p>
               </div>

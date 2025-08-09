@@ -96,8 +96,8 @@ const ResourceHub: React.FC = () => {
     <Layout>
       <div className="w-full">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-white mb-4">Resource Hub</h1>
-          <p className="text-lg text-white/80">Access important resources for students and faculty</p>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">Resource Hub</h1>
+          <p className="text-lg text-gray-700">Access important resources for students and faculty</p>
         </div>
 
         {/* Category Filters */}
