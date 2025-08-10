@@ -16,6 +16,7 @@ import AdminResourceHub from './adminpages/AdminResourceHub';
 import AdminEvents from "./adminpages/AdminEvents";
 import AdminSettings from './adminpages/AdminSetting'; // Import your settings page
 import AdminHouseCouncil from './adminpages/AdminHouseCouncil';
+import AdminTeams from './adminpages/AdminTeams';
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
         <Route path="/admin/events" element={<AdminEvents />} />
         <Route path="/admin/settings" element={<AdminSettings />} />
         <Route path="/admin/house-council" element={<AdminHouseCouncil />} /> {/* Added House Council route */}
+        <Route path="/admin/teams" element={<AdminTeams />} /> {/* Added Teams route */}
       </Routes>
       <Toaster richColors position="top-right" />
     </>

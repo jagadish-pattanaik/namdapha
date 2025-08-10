@@ -71,4 +71,38 @@ app.post('/api/regional-coordinators', (req, res) => {
   res.json({ success: true });
 });
 
+// Web Ops Team
+app.get('/api/web-ops-team', (req, res) => {
+  const data = fs.readFileSync('./src/data/webOpsTeam.json');
+  res.json(JSON.parse(data));
+});
+
+// PR Team
+app.get('/api/pr-team', (req, res) => {
+  const data = fs.readFileSync('./src/data/prTeam.json');
+  res.json(JSON.parse(data));
+});
+
+// Outreach Team
+app.get('/api/outreach-team', (req, res) => {
+  const data = fs.readFileSync('./src/data/outreachTeam.json');
+  res.json(JSON.parse(data));
+});
+
+// POST routes (for updating)
+app.post('/api/web-ops-team', (req, res) => {
+  fs.writeFileSync('./src/data/webOpsTeam.json', JSON.stringify(req.body, null, 2));
+  res.json({ success: true });
+});
+
+app.post('/api/pr-team', (req, res) => {
+  fs.writeFileSync('./src/data/prTeam.json', JSON.stringify(req.body, null, 2));
+  res.json({ success: true });
+});
+
+app.post('/api/outreach-team', (req, res) => {
+  fs.writeFileSync('./src/data/outreachTeam.json', JSON.stringify(req.body, null, 2));
+  res.json({ success: true });
+});
+
 app.listen(5050, () => console.log('API running on port 5050'));

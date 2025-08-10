@@ -31,20 +31,8 @@ import { differenceInHours, parseISO } from "date-fns";
 import { toast } from "sonner";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-
-const glassToast = (message: string, type: "success" | "error" | "info" = "info") => {
-  toast(
-    <div className={`flex items-center gap-3 px-4 py-3 rounded-xl backdrop-blur-lg bg-white/60 border shadow-lg border-purple-200/40`}>
-      {type === "success" && <CheckCircle className="text-green-500" size={22} />}
-      {type === "error" && <XCircle className="text-red-500" size={22} />}
-      {type === "info" && <Edit2 className="text-purple-500" size={22} />}
-      <span className={`font-semibold text-base ${type === "error" ? "text-red-700" : type === "success" ? "text-green-700" : "text-purple-700"}`}>
-        {message}
-      </span>
-    </div>,
-    { duration: 2500 }
-  );
-};
+// import { glassToast } from "../lib/toast";
+import { toast as glassToast } from "sonner";
 
 type Event = {
   id: number;
@@ -301,8 +289,8 @@ const AdminEvents: React.FC = () => {
               }
             </h2>
             <form onSubmit={handleSave}>
-              <div className="grid grid-cols-1 gap-4 mb-4">
-                {/* Event Type Selector (half width, no default selected) */}
+              <div className="grid grid-cols-1 gap-4 mb-4" aria-disabled={section === ""}>
+                {/* Event Type Selector */}
                 <div className="grid grid-cols-2 gap-4">
                   <Select
                     value={section}
@@ -316,11 +304,10 @@ const AdminEvents: React.FC = () => {
                       <SelectItem value="past">Past Event</SelectItem>
                     </SelectContent>
                   </Select>
-                  {/* Empty cell for alignment */}
                   <div />
                 </div>
 
-                {/* Title & Meet Link (horizontal row with labels) */}
+                {/* Title & Meet Link */}
                 <div className="flex gap-4">
                   <div className="flex flex-col flex-1">
                     <Label htmlFor="title" className="mb-1">Event Title</Label>
@@ -328,9 +315,16 @@ const AdminEvents: React.FC = () => {
                       id="title"
                       name="title"
                       value={form.title || ""}
-                      onChange={handleChange}
+                      onChange={e => {
+                        if (section === "") {
+                          alert("Please select an event type first.");
+                          return;
+                        }
+                        handleChange(e);
+                      }}
                       placeholder="Title"
                       required
+                      disabled={section === ""}
                     />
                   </div>
                   <div className="flex flex-col flex-1">
@@ -339,15 +333,21 @@ const AdminEvents: React.FC = () => {
                       id="meetLink"
                       name="meetLink"
                       value={form.meetLink || ""}
-                      onChange={handleChange}
+                      onChange={e => {
+                        if (section === "") {
+                          alert("Please select an event type first.");
+                          return;
+                        }
+                        handleChange(e);
+                      }}
                       placeholder="Meet Link"
-                      disabled={section === "past"}
+                      disabled={section === "" || section === "past"}
                       onClick={section === "past" ? () => handleDisabledFieldClick("Meet Link") : undefined}
                     />
                   </div>
                 </div>
 
-                {/* Date, Starting Time, Ending Time, Platform, Category (single row, each with label) */}
+                {/* Date, Starting Time, Ending Time, Platform, Category */}
                 <div className="flex gap-4 mt-4">
                   <div className="flex flex-col flex-1">
                     <Label className="mb-1">Date</Label>
@@ -357,6 +357,12 @@ const AdminEvents: React.FC = () => {
                           variant="outline"
                           data-empty={!form.date}
                           className="data-[empty=true]:text-muted-foreground w-full justify-start text-left font-normal"
+                          disabled={section === ""}
+                          onClick={() => {
+                            if (section === "") {
+                              alert("Please select an event type first.");
+                            }
+                          }}
                         >
                           <CalendarIcon className="mr-2 h-4 w-4" />
                           {form.date
@@ -368,26 +374,27 @@ const AdminEvents: React.FC = () => {
                         <Calendar
                           mode="single"
                           selected={form.date ? new Date(form.date) : undefined}
-                          onSelect={date =>
+                          onSelect={date => {
+                            if (section === "") {
+                              alert("Please select an event type first.");
+                              return;
+                            }
                             setForm({
                               ...form,
                               date: date
                                 ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`
                                 : ""
-                            })
-                          }
+                            });
+                          }}
                           initialFocus
-                          disabled={section === "past"
-                            ? {
-                                after: new Date(),
-                              }
+                          disabled={section === "" ? { before: new Date(1900, 0, 1), after: new Date(3000, 0, 1) } : section === "past"
+                            ? { after: new Date() }
                             : undefined
                           }
                         />
                       </PopoverContent>
                     </Popover>
                   </div>
-                  {/* Starting Time input */}
                   <div className="flex flex-col flex-1">
                     <Label htmlFor="time" className="mb-1">Starting Time</Label>
                     <Input
@@ -395,13 +402,18 @@ const AdminEvents: React.FC = () => {
                       name="time"
                       type="time"
                       value={form.time || ""}
-                      onChange={handleChange}
+                      onChange={e => {
+                        if (section === "") {
+                          alert("Please select an event type first.");
+                          return;
+                        }
+                        handleChange(e);
+                      }}
                       placeholder="Starting Time"
-                      disabled={section === "past"}
+                      disabled={section === "" || section === "past"}
                       onClick={section === "past" ? () => handleDisabledFieldClick("Starting Time") : undefined}
                     />
                   </div>
-                  {/* Ending Time input */}
                   <div className="flex flex-col flex-1">
                     <Label htmlFor="endTime" className="mb-1">Ending Time</Label>
                     <Input
@@ -409,9 +421,15 @@ const AdminEvents: React.FC = () => {
                       name="endTime"
                       type="time"
                       value={form.endTime || ""}
-                      onChange={handleChange}
+                      onChange={e => {
+                        if (section === "") {
+                          alert("Please select an event type first.");
+                          return;
+                        }
+                        handleChange(e);
+                      }}
                       placeholder="Ending Time"
-                      disabled={section === "past"}
+                      disabled={section === "" || section === "past"}
                       onClick={section === "past" ? () => handleDisabledFieldClick("Ending Time") : undefined}
                     />
                   </div>
@@ -419,7 +437,14 @@ const AdminEvents: React.FC = () => {
                     <Label className="mb-1">Platform</Label>
                     <Select
                       value={form.location || ""}
-                      onValueChange={value => setForm({ ...form, location: value })}
+                      onValueChange={value => {
+                        if (section === "") {
+                          alert("Please select an event type first.");
+                          return;
+                        }
+                        setForm({ ...form, location: value });
+                      }}
+                      disabled={section === ""}
                     >
                       <SelectTrigger className="w-full p-2 rounded bg-background border border-border text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500 transition">
                         <SelectValue placeholder="Select platform" />
@@ -437,7 +462,14 @@ const AdminEvents: React.FC = () => {
                     <Label className="mb-1">Category</Label>
                     <Select
                       value={form.category || ""}
-                      onValueChange={value => setForm({ ...form, category: value })}
+                      onValueChange={value => {
+                        if (section === "") {
+                          alert("Please select an event type first.");
+                          return;
+                        }
+                        setForm({ ...form, category: value });
+                      }}
+                      disabled={section === ""}
                     >
                       <SelectTrigger className="w-full p-2 rounded bg-background border border-border text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500 transition">
                         <SelectValue placeholder="Select category" />
@@ -454,7 +486,7 @@ const AdminEvents: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Poster Upload and Link in a single horizontal line with labels and "or" */}
+                {/* Poster Upload and Link */}
                 <div className="flex items-center gap-4 mt-4">
                   <div className="flex flex-col flex-1">
                     <Label className="mb-1">Upload Event Poster</Label>
@@ -462,8 +494,15 @@ const AdminEvents: React.FC = () => {
                       type="file"
                       name="imagePoster"
                       accept="image/*"
-                      onChange={e => setForm({ ...form, imagePoster: e.target.files?.[0] })}
+                      onChange={e => {
+                        if (section === "") {
+                          alert("Please select an event type first.");
+                          return;
+                        }
+                        setForm({ ...form, imagePoster: e.target.files?.[0] });
+                      }}
                       placeholder="Upload poster thumbnail"
+                      disabled={section === ""}
                     />
                   </div>
                   <span className="mx-2 font-semibold text-muted-foreground">or</span>
@@ -472,21 +511,35 @@ const AdminEvents: React.FC = () => {
                     <Input
                       name="imageUrl"
                       value={form.imageUrl || ""}
-                      onChange={handleChange}
+                      onChange={e => {
+                        if (section === "") {
+                          alert("Please select an event type first.");
+                          return;
+                        }
+                        handleChange(e);
+                      }}
                       placeholder="Paste image link (URL)"
+                      disabled={section === ""}
                     />
                   </div>
                 </div>
 
-                {/* Description (full width) */}
+                {/* Description */}
                 <div className="flex flex-col mt-4">
                   <Label className="mb-1">Description</Label>
                   <Textarea
                     name="description"
                     value={form.description || ""}
-                    onChange={handleChange}
+                    onChange={e => {
+                      if (section === "") {
+                        alert("Please select an event type first.");
+                        return;
+                      }
+                      handleChange(e);
+                    }}
                     placeholder="Description"
                     rows={2}
+                    disabled={section === ""}
                   />
                 </div>
               </div>
@@ -494,7 +547,7 @@ const AdminEvents: React.FC = () => {
                 <Button
                   type="submit"
                   className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-4 py-2 rounded font-bold shadow hover:scale-105 transition"
-                  disabled={section === ""} // Disable Add/Update button until event type is selected
+                  disabled={section === ""}
                 >
                   {editingId !== null ? "Update" : "Add"}
                 </Button>
@@ -504,6 +557,7 @@ const AdminEvents: React.FC = () => {
                     variant="outline"
                     className="bg-muted text-muted-foreground hover:bg-gray-200 px-4 py-2 rounded font-semibold shadow transition"
                     onClick={() => { setForm(defaultForm); setEditingId(null); }}
+                    disabled={section === ""}
                   >
                     Cancel
                   </Button>
