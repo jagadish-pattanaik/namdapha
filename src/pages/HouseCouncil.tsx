@@ -262,22 +262,19 @@ const HouseCouncil = () => {
                       <div className={`bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden transition-all duration-300 ${hoveredCoordinator === coordinator.id ? 'border-orange-500/30 bg-white/8' : ''}`}>
                         {/* Profile Image */}
                         <div className="p-4 pb-3">
-                          {/* Remove padding and margin for full-width image */}
                           <div className="relative h-64 sm:h-60 md:h-56 lg:h-60 xl:h-64 w-full">
                             <div className={`w-full h-full rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 ${hoveredCoordinator === coordinator.id ? 'shadow-3xl' : ''}`}>
-                              {/* Main Image */}
                               <div className="relative w-full h-full">
                                 <div 
                                   className="w-full h-full bg-cover bg-center bg-orange-400 rounded-2xl"
                                   style={{ 
                                     backgroundImage: `url(${coordinator.image})`,
                                     width: '100%',
-                                    minWidth: '0', // Remove minWidth restriction
-                                    maxWidth: 'none', // Remove maxWidth restriction
-                                    margin: 0 // Remove margin
+                                    minWidth: '0',
+                                    maxWidth: 'none',
+                                    margin: 0
                                   }}
                                 />
-                                {/* Subtle gradient overlay */}
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent rounded-2xl"></div>
                               </div>
                             </div>
@@ -289,30 +286,13 @@ const HouseCouncil = () => {
                           <h3 className="text-lg sm:text-xl font-bold text-white mb-2">
                             {coordinator.name}
                           </h3>
-                          
                           <div className="space-y-1 mb-4">
                             <p className="text-orange-300 text-sm font-medium">{coordinator.region}</p>
                           </div>
-
-                          {/* Description on Hover */}
-                          <AnimatePresence>
-                            {hoveredCoordinator === coordinator.id && (
-                              <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.2 }}
-                                className="overflow-hidden"
-                              >
-                                <p className="text-white/70 text-sm leading-relaxed pt-2 border-t border-white/10">
-                                  {coordinator.description}
-                                </p>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-
-                          {/* Simple Contact Buttons */}
-                          <div className={`flex justify-center gap-2 mt-4 transition-opacity duration-200 ${hoveredCoordinator === coordinator.id ? 'opacity-100' : 'opacity-0'}`}>
+                          {/* Only horizontal line below, no description */}
+                          <hr className="border-t border-white/10 my-2" />
+                          {/* Icons below the line */}
+                          <div className="flex justify-center gap-2 mt-4">
                             <button className="p-2 bg-orange-600 hover:bg-orange-500 text-white rounded-lg transition-colors text-xs">
                               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
