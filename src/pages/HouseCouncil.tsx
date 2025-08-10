@@ -9,7 +9,6 @@ interface CouncilMember {
   position: string;
   image: string;
   description: string;
-  department: string;
 }
 
 interface RegionalCoordinator {
@@ -18,7 +17,6 @@ interface RegionalCoordinator {
   region: string;
   image: string;
   description: string;
-  department: string;
 }
 
 const HouseCouncil = () => {
@@ -32,24 +30,21 @@ const HouseCouncil = () => {
       name: "Devansh Malhotra",
       position: "Secretary",
       image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402073/WhatsApp_Image_2025-08-05_at_19.18.21_lafgtv.jpg",
-      description: "Leading the house with dedication and vision for academic excellence.",
-      department: "Computer Science"
+      description: "Leading the house with dedication and vision for academic excellence."
     },
     {
       id: 2,
       name: "Sanya N",
       position: "Deputy Secretary",
       image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402834/srav2_ozsrmg.jpg",
-      description: "Supporting house activities and fostering community spirit among residents.",
-      department: "Mechanical Engineering"
+      description: "Supporting house activities and fostering community spirit."
     },
     {
       id: 3,
       name: "Harshita Dudeja",
       position: "Web Admin",
       image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402074/IMG_20241013_185028_753_fa3olk.webp",
-      description: "Managing digital presence and maintaining house website and resources.",
-      department: "Information Technology"
+      description: "Managing digital presence and maintaining house website"
     }
   ];
 
@@ -57,87 +52,75 @@ const HouseCouncil = () => {
 
   // Regional coordinators data (5 columns x 2 rows = 10 coordinators)
   const regionalCoordinators: RegionalCoordinator[] = [
-    // Row 1
     {
       id: 1,
       name: "Rahul Sharma",
       region: "North Zone",
       image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754390919/1000073005-modified_a0ou2c.png",
-      description: "Coordinating activities for northern region states and building community connections.",
-      department: "Civil Engineering"
+      description: "Coordinating activities for northern region states and building community connections."
     },
     {
       id: 2,
       name: "Priya Singh",
       region: "South Zone",
       image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754487754/20250728_1547_Group_Beach_Gathering_remix_01k188e475eezvtpq51c33z8c3-2_w85umz.png",
-      description: "Managing southern region coordination and cultural exchange programs.",
-      department: "Electronics Engineering"
+      description: "Managing southern region coordination and cultural exchange programs."
     },
     {
       id: 3,
       name: "Amit Patel",
       region: "West Zone",
       image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754394299/20250728_1415_Indian_Subcontinent_Trees_remix_01k1835p9df9a9pvr4h1dtftz4_xdzp1e.png",
-      description: "Facilitating western region activities and inter-state collaborations.",
-      department: "Mechanical Engineering"
+      description: "Facilitating western region activities and inter-state collaborations."
     },
     {
       id: 4,
       name: "Sneha Das",
       region: "East Zone",
       image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402073/WhatsApp_Image_2025-08-05_at_19.18.21_lafgtv.jpg",
-      description: "Leading eastern region coordination and fostering regional unity.",
-      department: "Computer Science"
+      description: "Leading eastern region coordination and fostering regional unity."
     },
     {
       id: 5,
       name: "Vikash Kumar",
       region: "Central Zone",
       image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402834/srav2_ozsrmg.jpg",
-      description: "Organizing central region events and maintaining regional connections.",
-      department: "Information Technology"
+      description: "Organizing central region events and maintaining regional connections."
     },
-    // Row 2
     {
       id: 6,
       name: "Ananya Reddy",
       region: "Northeast Zone",
       image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402074/IMG_20241013_185028_753_fa3olk.webp",
-      description: "Coordinating northeast region activities and cultural celebrations.",
-      department: "Chemical Engineering"
+      description: "Coordinating northeast region activities and cultural celebrations."
     },
     {
       id: 7,
       name: "Rohit Gupta",
       region: "Punjab Region",
       image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754390919/1000073005-modified_a0ou2c.png",
-      description: "Managing Punjab region coordination and student welfare programs.",
-      department: "Electrical Engineering"
+      description: "Managing Punjab region coordination and student welfare programs."
     },
     {
       id: 8,
       name: "Kavya Nair",
       region: "Kerala Region",
       image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754487754/20250728_1547_Group_Beach_Gathering_remix_01k188e475eezvtpq51c33z8c3-2_w85umz.png",
-      description: "Leading Kerala region initiatives and community building activities.",
-      department: "Biotechnology"
+      description: "Leading Kerala region initiatives and community building activities."
     },
     {
       id: 9,
       name: "Arjun Mehta",
       region: "Gujarat Region",
       image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754394299/20250728_1415_Indian_Subcontinent_Trees_remix_01k1835p9df9a9pvr4h1dtftz4_xdzp1e.png",
-      description: "Coordinating Gujarat region events and fostering regional pride.",
-      department: "Aerospace Engineering"
+      description: "Coordinating Gujarat region events and fostering regional pride."
     },
     {
       id: 10,
       name: "Ritu Agarwal",
       region: "Rajasthan Region",
       image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402073/WhatsApp_Image_2025-08-05_at_19.18.21_lafgtv.jpg",
-      description: "Managing Rajasthan region coordination and traditional celebrations.",
-      department: "Architecture"
+      description: "Managing Rajasthan region coordination and traditional celebrations."
     }
   ];
 
@@ -189,75 +172,39 @@ const HouseCouncil = () => {
                       duration: 0.5, 
                       delay: index * 0.1
                     }}
-                    onMouseEnter={() => setHoveredMember(member.id)}
-                    onMouseLeave={() => setHoveredMember(null)}
-                    whileHover={{ y: -8 }}
-                    style={{ perspective: 1000 }}
+                    whileHover={{
+                      y: -16,
+                      scale: 1.05,
+                      boxShadow: "0 12px 32px -8px rgba(140,80,255,0.25)"
+                    }}
                   >
-                    {/* Modern Card - Optimized for mobile */}
-                    <div className={`bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden transition-all duration-300 max-w-sm mx-auto md:max-w-none ${hoveredMember === member.id ? 'border-purple-500/30 bg-white/8' : ''}`}>
-                      {/* Profile Image - Maintain height, optimize width for mobile */}
+                    <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden transition-all duration-300 max-w-sm mx-auto md:max-w-none">
+                      {/* Profile Image */}
                       <div className="p-4 pb-3">
-                        <div 
-                          className="relative w-full h-64 sm:h-60 md:h-56 lg:h-60 mx-auto mb-3"
-                          style={{ 
-                            perspective: 1000,
-                            transform: hoveredMember === member.id ? 'rotateX(-20deg) rotateY(20deg) scale(1.15)' : 'rotateX(0deg) rotateY(0deg) scale(1)',
-                            transformStyle: 'preserve-3d',
-                            transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-                          }}
-                        >
-                          <div className={`w-full h-full rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 ${hoveredMember === member.id ? 'shadow-3xl' : ''}`}>
-                            {/* Enhanced 3D Shadow Effects */}
-                            <div className={`absolute -inset-2 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-3xl blur-sm transition-all duration-500 transform ${hoveredMember === member.id ? 'opacity-100 translate-y-2' : 'opacity-0'}`}></div>
-                            <div className={`absolute -inset-1 bg-black/30 rounded-2xl blur transition-all duration-500 transform ${hoveredMember === member.id ? 'opacity-100 translate-y-1' : 'opacity-0'}`}></div>
-                            
-                            {/* Main Image - Full width with maintained aspect ratio */}
+                        <div className="relative w-full h-64 sm:h-60 md:h-56 lg:h-60 mx-auto mb-3">
+                          <div className="w-full h-full rounded-2xl overflow-hidden shadow-2xl transition-all duration-500">
                             <div className="relative w-full h-full">
                               <div 
                                 className="w-full h-full bg-cover bg-center bg-purple-400 rounded-2xl"
                                 style={{ backgroundImage: `url(${member.image})` }}
                               />
-                              {/* Subtle gradient overlay */}
                               <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent rounded-2xl"></div>
-                              
-                              {/* Enhanced 3D depth effect */}
-                              <div className={`absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/20 transition-opacity duration-300 rounded-2xl ${hoveredMember === member.id ? 'opacity-100' : 'opacity-0'}`}></div>
                             </div>
                           </div>
                         </div>
                       </div>
-
-                      {/* Member Info - Compact but readable */}
+                      {/* Member Info */}
                       <div className="px-4 pb-5 text-center">
                         <h3 className="text-lg sm:text-xl font-bold text-white mb-2">
                           {member.name}
                         </h3>
-                        
                         <div className="space-y-1 mb-4">
                           <p className="text-purple-300 text-sm font-medium">{member.position}</p>
-                          <p className="text-white/60 text-xs">{member.department}</p>
                         </div>
-
-                        {/* Description on Hover */}
-                        <AnimatePresence>
-                          {hoveredMember === member.id && (
-                            <motion.div
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto' }}
-                              exit={{ opacity: 0, height: 0 }}
-                              transition={{ duration: 0.2 }}
-                              className="overflow-hidden"
-                            >
-                              <p className="text-white/70 text-sm leading-relaxed pt-2 border-t border-white/10">
-                                {member.description}
-                              </p>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-
-                        {/* Simple Contact Buttons */}
-                        <div className={`flex justify-center gap-2 mt-4 transition-opacity duration-200 ${hoveredMember === member.id ? 'opacity-100' : 'opacity-0'}`}>
+                        <p className="text-white/70 text-sm leading-relaxed pt-2 border-t border-white/10">
+                          {member.description}
+                        </p>
+                        <div className="flex justify-center gap-2 mt-4">
                           <button className="p-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors text-xs">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -345,7 +292,6 @@ const HouseCouncil = () => {
                           
                           <div className="space-y-1 mb-4">
                             <p className="text-orange-300 text-sm font-medium">{coordinator.region}</p>
-                            <p className="text-white/60 text-xs">{coordinator.department}</p>
                           </div>
 
                           {/* Description on Hover */}
