@@ -182,7 +182,7 @@ const HouseCouncil = () => {
                 {councilMembers.map((member, index) => (
                   <motion.div
                     key={member.id}
-                    className="group"
+                    className="individual-council-member"
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ 
@@ -195,27 +195,22 @@ const HouseCouncil = () => {
                     style={{ perspective: 1000 }}
                   >
                     {/* Modern Card - Optimized for mobile */}
-                    <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden transition-all duration-300 hover:border-purple-500/30 hover:bg-white/8 max-w-sm mx-auto md:max-w-none">
+                    <div className={`bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden transition-all duration-300 max-w-sm mx-auto md:max-w-none ${hoveredMember === member.id ? 'border-purple-500/30 bg-white/8' : ''}`}>
                       {/* Profile Image - Maintain height, optimize width for mobile */}
                       <div className="p-4 pb-3">
-                        <motion.div 
+                        <div 
                           className="relative w-full h-64 sm:h-60 md:h-56 lg:h-60 mx-auto mb-3"
-                          whileHover={{ 
-                            rotateX: -20,
-                            rotateY: 20,
-                            scale: 1.15,
-                            z: 80
-                          }}
-                          transition={{ 
-                            type: "spring", 
-                            stiffness: 400, 
-                            damping: 25 
+                          style={{ 
+                            perspective: 1000,
+                            transform: hoveredMember === member.id ? 'rotateX(-20deg) rotateY(20deg) scale(1.15)' : 'rotateX(0deg) rotateY(0deg) scale(1)',
+                            transformStyle: 'preserve-3d',
+                            transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
                           }}
                         >
-                          <div className="w-full h-full rounded-2xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
+                          <div className={`w-full h-full rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 ${hoveredMember === member.id ? 'shadow-3xl' : ''}`}>
                             {/* Enhanced 3D Shadow Effects */}
-                            <div className="absolute -inset-2 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-3xl blur-sm opacity-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:translate-y-2"></div>
-                            <div className="absolute -inset-1 bg-black/30 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:translate-y-1"></div>
+                            <div className={`absolute -inset-2 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-3xl blur-sm transition-all duration-500 transform ${hoveredMember === member.id ? 'opacity-100 translate-y-2' : 'opacity-0'}`}></div>
+                            <div className={`absolute -inset-1 bg-black/30 rounded-2xl blur transition-all duration-500 transform ${hoveredMember === member.id ? 'opacity-100 translate-y-1' : 'opacity-0'}`}></div>
                             
                             {/* Main Image - Full width with maintained aspect ratio */}
                             <div className="relative w-full h-full">
@@ -227,10 +222,10 @@ const HouseCouncil = () => {
                               <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent rounded-2xl"></div>
                               
                               {/* Enhanced 3D depth effect */}
-                              <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+                              <div className={`absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/20 transition-opacity duration-300 rounded-2xl ${hoveredMember === member.id ? 'opacity-100' : 'opacity-0'}`}></div>
                             </div>
                           </div>
-                        </motion.div>
+                        </div>
                       </div>
 
                       {/* Member Info - Compact but readable */}
@@ -305,7 +300,7 @@ const HouseCouncil = () => {
                   {regionalCoordinators.map((coordinator, index) => (
                     <motion.div
                       key={coordinator.id}
-                      className="group"
+                      className="individual-coordinator"
                       initial={{ opacity: 0, y: 40 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ 
@@ -317,12 +312,12 @@ const HouseCouncil = () => {
                       whileHover={{ y: -8 }}
                     >
                       {/* Regional Coordinator Card */}
-                      <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden transition-all duration-300 hover:border-orange-500/30 hover:bg-white/8">
+                      <div className={`bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden transition-all duration-300 ${hoveredCoordinator === coordinator.id ? 'border-orange-500/30 bg-white/8' : ''}`}>
                         {/* Profile Image */}
                         <div className="p-4 pb-3">
                           {/* Remove padding and margin for full-width image */}
                           <div className="relative h-64 sm:h-60 md:h-56 lg:h-60 xl:h-64 w-full">
-                            <div className="w-full h-full rounded-2xl overflow-hidden shadow-2xl transition-all duration-500">
+                            <div className={`w-full h-full rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 ${hoveredCoordinator === coordinator.id ? 'shadow-3xl' : ''}`}>
                               {/* Main Image */}
                               <div className="relative w-full h-full">
                                 <div 
