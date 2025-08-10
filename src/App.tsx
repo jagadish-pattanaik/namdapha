@@ -9,12 +9,12 @@ import HouseCouncil from './pages/HouseCouncil';
 import Events from './pages/Events';
 import ResourceHub from './pages/ResourceHub';
 import WhatsappVerify from './pages/WhatsappVerify';
-import AdminLogin from './pages/AdminLogin';
-import AdminDashboard from './pages/AdminDashboard';
-import AdminImportantLinks from './pages/AdminImportantLinks';
-import AdminResourceHub from './pages/AdminResourceHub';
-import AdminEvents from "./pages/AdminEvents";
-import AdminSettings from './pages/Adminsetting'; // Import your settings page
+import AdminLogin from './adminpages/AdminLogin';
+import AdminDashboard from './adminpages/AdminDashboard';
+import AdminImportantLinks from './adminpages/AdminImportantLinks';
+import AdminResourceHub from './adminpages/AdminResourceHub';
+import AdminEvents from "./adminpages/AdminEvents";
+import AdminSettings from './adminpages/AdminSetting'; // Import your settings page
 
 function App() {
   return (

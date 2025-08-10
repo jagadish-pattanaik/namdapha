@@ -1,5 +1,18 @@
 [
   {
+    "title": "English Event",
+    "description": "",
+    "date": "2025-08-14",
+    "time": "17:21",
+    "location": "Google Meet",
+    "category": "Paradox",
+    "addedBy": "Shivang Saraswat",
+    "visible": true,
+    "endTime": "17:22",
+    "id": 5,
+    "imageUrl": ""
+  },
+  {
     "title": "Car Show",
     "description": "dfdfd",
     "date": "2025-08-12",
