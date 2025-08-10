@@ -13,6 +13,19 @@
     "imageUrl": "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402074/IMG_20241013_185028_753_fa3olk.webp"
   },
   {
+    "title": "Poetry Competition",
+    "description": "",
+    "date": "2025-08-08",
+    "time": "",
+    "location": "Google Meet",
+    "category": "Student Activity",
+    "addedBy": "Shivang Saraswat",
+    "visible": true,
+    "id": 14,
+    "createdAt": "2025-08-09T19:25:00.929Z",
+    "imageUrl": "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754394299/20250728_1415_Indian_Subcontinent_Trees_remix_01k1835p9df9a9pvr4h1dtftz4_xdzp1e.png"
+  },
+  {
     "title": "HackSprint",
     "description": "",
     "date": "2025-08-04",
@@ -38,19 +51,6 @@
     "id": 17,
     "createdAt": "2025-08-09T20:12:38.675Z",
     "imagePoster": {}
-  },
-  {
-    "title": "Poetry Competition",
-    "description": "",
-    "date": "2025-08-08",
-    "time": "",
-    "location": "Google Meet",
-    "category": "Student Activity",
-    "addedBy": "Shivang Saraswat",
-    "visible": true,
-    "id": 14,
-    "createdAt": "2025-08-09T19:25:00.929Z",
-    "imageUrl": "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754394299/20250728_1415_Indian_Subcontinent_Trees_remix_01k1835p9df9a9pvr4h1dtftz4_xdzp1e.png"
   },
   {
     "title": "testingggg",
