@@ -94,7 +94,7 @@ const Navbar = () => {
           }`}
         >
           {/* Desktop Nav - Left (hidden on mobile) */}
-          <div className="hidden md:flex space-x-10 font-fantasy text-lg">
+          <div className="hidden md:flex space-x-10 font-fantasy text-lg font-bold">
             <Link to="/about" className="text-white hover:text-purple-400 transition">About Us</Link>
             <Link to="/house-council" className="text-white hover:text-purple-400 transition">House Council</Link>
             <Link to="/teams" className="text-white hover:text-purple-400 transition">Teams</Link>
@@ -152,10 +152,10 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Nav - Right (hidden on mobile) */}
-          <div className="hidden md:flex space-x-10 font-fantasy text-lg items-center">
+          <div className="hidden md:flex space-x-10 font-fantasy text-lg font-bold items-center">
             <Link to="/resource-hub" className="text-white hover:text-purple-400 transition">Resource Hub</Link>
             <Link to="/events" className="text-white hover:text-purple-400 transition">Events</Link>
-            <Link to="/chat-bot" className="bg-purple-600/70 hover:bg-purple-600 px-4 py-1.5 rounded-full text-white transition-colors border border-purple-400/50 shadow-md shadow-purple-500/20 pulse-subtle">Chat Bot</Link>
+            <Link to="/chat-bot" className="bg-purple-600/70 hover:bg-purple-600 px-4 py-1.5 rounded-full text-white transition-colors border border-purple-400/50 shadow-md shadow-purple-500/20 pulse-subtle">Join US</Link>
           </div>
 
           {/* Hamburger Menu Icon - Mobile Only */}
@@ -179,7 +179,7 @@ const Navbar = () => {
           >
             <Link 
               to="/home" 
-              className="text-white hover:text-purple-400 transition-all duration-200 hover:translate-x-1 text-lg flex items-center" 
+              className="text-white hover:text-purple-400 transition-all duration-200 hover:translate-x-1 text-lg font-bold flex items-center" 
               onClick={() => setIsOpen(false)}
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -190,18 +190,18 @@ const Navbar = () => {
             
             <div className="w-2/3 h-px bg-white/10"></div>
             
-            <Link to="/about" className="text-white hover:text-purple-400 transition-all duration-200 hover:translate-x-1 text-lg" onClick={() => setIsOpen(false)}>About Us</Link>
-            <Link to="/house-council" className="text-white hover:text-purple-400 transition-all duration-200 hover:translate-x-1 text-lg" onClick={() => setIsOpen(false)}>House Council</Link>
-            <Link to="/teams" className="text-white hover:text-purple-400 transition-all duration-200 hover:translate-x-1 text-lg" onClick={() => setIsOpen(false)}>Teams</Link>
-            <Link to="/resource-hub" className="text-white hover:text-purple-400 transition-all duration-200 hover:translate-x-1 text-lg" onClick={() => setIsOpen(false)}>Resource Hub</Link>
-            <Link to="/events" className="text-white hover:text-purple-400 transition-all duration-200 hover:translate-x-1 text-lg" onClick={() => setIsOpen(false)}>Events</Link>
+            <Link to="/about" className="text-white hover:text-purple-400 transition-all duration-200 hover:translate-x-1 text-lg font-bold" onClick={() => setIsOpen(false)}>About Us</Link>
+            <Link to="/house-council" className="text-white hover:text-purple-400 transition-all duration-200 hover:translate-x-1 text-lg font-bold" onClick={() => setIsOpen(false)}>House Council</Link>
+            <Link to="/teams" className="text-white hover:text-purple-400 transition-all duration-200 hover:translate-x-1 text-lg font-bold" onClick={() => setIsOpen(false)}>Teams</Link>
+            <Link to="/resource-hub" className="text-white hover:text-purple-400 transition-all duration-200 hover:translate-x-1 text-lg font-bold" onClick={() => setIsOpen(false)}>Resource Hub</Link>
+            <Link to="/events" className="text-white hover:text-purple-400 transition-all duration-200 hover:translate-x-1 text-lg font-bold" onClick={() => setIsOpen(false)}>Events</Link>
             
             <Link 
               to="/chat-bot" 
               className="bg-purple-600/70 hover:bg-purple-600 px-6 py-2 rounded-full text-white transition-colors border border-purple-400/50 shadow-md mt-4 text-lg" 
               onClick={() => setIsOpen(false)}
             >
-              Chat Bot
+              Join Us
             </Link>
             
             <button 
