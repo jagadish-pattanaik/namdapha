@@ -1,0 +1,24 @@
+[
+  {
+    "name": "Devansh Malhotra",
+    "position": "House Secretary",
+    "image": "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402073/WhatsApp_Image_2025-08-05_at_19.18.21_lafgtv.jpg",
+    "description": "Leading the house with dedication and vision for academic excellence",
+    "id": 1
+  },
+  {
+    "name": "Sravya N",
+    "position": "Deputy Secretary",
+    "image": "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402834/srav2_ozsrmg.jpg",
+    "description": "Supporting house activities and fostering community spirit",
+    "email": "namdapha-ds@ds.study.iitm.ac.in",
+    "id": 2
+  },
+  {
+    "name": "Harshita Dudeja",
+    "position": "Web Admin",
+    "image": "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402074/IMG_20241013_185028_753_fa3olk.webp",
+    "description": "Managing digital presence and maintaining house website",
+    "id": 3
+  }
+]

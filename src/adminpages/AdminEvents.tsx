@@ -491,7 +491,11 @@ const AdminEvents: React.FC = () => {
                 </div>
               </div>
               <div className="flex gap-2">
-                <Button type="submit" className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-4 py-2 rounded font-bold shadow hover:scale-105 transition">
+                <Button
+                  type="submit"
+                  className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-4 py-2 rounded font-bold shadow hover:scale-105 transition"
+                  disabled={section === ""} // Disable Add/Update button until event type is selected
+                >
                   {editingId !== null ? "Update" : "Add"}
                 </Button>
                 {editingId !== null && (

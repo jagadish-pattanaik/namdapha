@@ -49,4 +49,26 @@ app.post('/api/resources', (req, res) => {
   res.json({ success: true });
 });
 
+// House Council
+app.get('/api/house-council', (req, res) => {
+  const data = fs.readFileSync('./src/data/houseCouncil.json');
+  res.json(JSON.parse(data));
+});
+
+app.post('/api/house-council', (req, res) => {
+  fs.writeFileSync('./src/data/houseCouncil.json', JSON.stringify(req.body, null, 2));
+  res.json({ success: true });
+});
+
+// Regional Coordinators
+app.get('/api/regional-coordinators', (req, res) => {
+  const data = fs.readFileSync('./src/data/regionalCoordinators.json');
+  res.json(JSON.parse(data));
+});
+
+app.post('/api/regional-coordinators', (req, res) => {
+  fs.writeFileSync('./src/data/regionalCoordinators.json', JSON.stringify(req.body, null, 2));
+  res.json({ success: true });
+});
+
 app.listen(5050, () => console.log('API running on port 5050'));

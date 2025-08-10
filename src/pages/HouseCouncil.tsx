@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -9,6 +9,7 @@ interface CouncilMember {
   position: string;
   image: string;
   description: string;
+  email: string; // <-- Add this line
 }
 
 interface RegionalCoordinator {
@@ -17,112 +18,26 @@ interface RegionalCoordinator {
   region: string;
   image: string;
   description: string;
+  email: string; // <-- Add this line
 }
 
 const HouseCouncil = () => {
   const [hoveredMember, setHoveredMember] = useState<number | null>(null);
   const [hoveredCoordinator, setHoveredCoordinator] = useState<number | null>(null);
+  const [councilMembers, setCouncilMembers] = useState<CouncilMember[]>([]);
+  const [regionalCoordinators, setRegionalCoordinators] = useState<RegionalCoordinator[]>([]);
 
-  // Council members data
-  const councilMembers: CouncilMember[] = [
-    {
-      id: 1,
-      name: "Devansh Malhotra",
-      position: "Secretary",
-      image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402073/WhatsApp_Image_2025-08-05_at_19.18.21_lafgtv.jpg",
-      description: "Leading the house with dedication and vision for academic excellence."
-    },
-    {
-      id: 2,
-      name: "Sanya N",
-      position: "Deputy Secretary",
-      image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402834/srav2_ozsrmg.jpg",
-      description: "Supporting house activities and fostering community spirit."
-    },
-    {
-      id: 3,
-      name: "Harshita Dudeja",
-      position: "Web Admin",
-      image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402074/IMG_20241013_185028_753_fa3olk.webp",
-      description: "Managing digital presence and maintaining house website"
-    }
-  ];
+  useEffect(() => {
+    fetch("/api/house-council")
+      .then(res => res.json())
+      .then(data => setCouncilMembers(data));
+  }, []);
 
-
-
-  // Regional coordinators data (5 columns x 2 rows = 10 coordinators)
-  const regionalCoordinators: RegionalCoordinator[] = [
-    {
-      id: 1,
-      name: "Rahul Sharma",
-      region: "North Zone",
-      image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754390919/1000073005-modified_a0ou2c.png",
-      description: "Coordinating activities for northern region states and building community connections."
-    },
-    {
-      id: 2,
-      name: "Priya Singh",
-      region: "South Zone",
-      image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754487754/20250728_1547_Group_Beach_Gathering_remix_01k188e475eezvtpq51c33z8c3-2_w85umz.png",
-      description: "Managing southern region coordination and cultural exchange programs."
-    },
-    {
-      id: 3,
-      name: "Amit Patel",
-      region: "West Zone",
-      image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754394299/20250728_1415_Indian_Subcontinent_Trees_remix_01k1835p9df9a9pvr4h1dtftz4_xdzp1e.png",
-      description: "Facilitating western region activities and inter-state collaborations."
-    },
-    {
-      id: 4,
-      name: "Sneha Das",
-      region: "East Zone",
-      image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402073/WhatsApp_Image_2025-08-05_at_19.18.21_lafgtv.jpg",
-      description: "Leading eastern region coordination and fostering regional unity."
-    },
-    {
-      id: 5,
-      name: "Vikash Kumar",
-      region: "Central Zone",
-      image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402834/srav2_ozsrmg.jpg",
-      description: "Organizing central region events and maintaining regional connections."
-    },
-    {
-      id: 6,
-      name: "Ananya Reddy",
-      region: "Northeast Zone",
-      image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402074/IMG_20241013_185028_753_fa3olk.webp",
-      description: "Coordinating northeast region activities and cultural celebrations."
-    },
-    {
-      id: 7,
-      name: "Rohit Gupta",
-      region: "Punjab Region",
-      image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754390919/1000073005-modified_a0ou2c.png",
-      description: "Managing Punjab region coordination and student welfare programs."
-    },
-    {
-      id: 8,
-      name: "Kavya Nair",
-      region: "Kerala Region",
-      image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754487754/20250728_1547_Group_Beach_Gathering_remix_01k188e475eezvtpq51c33z8c3-2_w85umz.png",
-      description: "Leading Kerala region initiatives and community building activities."
-    },
-    {
-      id: 9,
-      name: "Arjun Mehta",
-      region: "Gujarat Region",
-      image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754394299/20250728_1415_Indian_Subcontinent_Trees_remix_01k1835p9df9a9pvr4h1dtftz4_xdzp1e.png",
-      description: "Coordinating Gujarat region events and fostering regional pride."
-    },
-    {
-      id: 10,
-      name: "Ritu Agarwal",
-      region: "Rajasthan Region",
-      image: "https://res.cloudinary.com/dogq9gvo8/image/upload/v1754402073/WhatsApp_Image_2025-08-05_at_19.18.21_lafgtv.jpg",
-      description: "Managing Rajasthan region coordination and traditional celebrations."
-    }
-  ];
+  useEffect(() => {
+    fetch("/api/regional-coordinators")
+      .then(res => res.json())
+      .then(data => setRegionalCoordinators(data));
+  }, []);
 
   return (
     <div className="min-h-screen relative bg-black">
@@ -205,11 +120,16 @@ const HouseCouncil = () => {
                           {member.description}
                         </p>
                         <div className="flex justify-center gap-2 mt-4">
-                          <button className="p-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors text-xs">
+                          {/* Email icon button */}
+                          <a
+                            href={`mailto:${member.email}`}
+                            className="p-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors text-xs"
+                            title={`Email ${member.name}`}
+                          >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
-                          </button>
+                          </a>
                           <button className="p-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg transition-colors text-xs">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -293,11 +213,15 @@ const HouseCouncil = () => {
                           <hr className="border-t border-white/10 my-2" />
                           {/* Icons below the line */}
                           <div className="flex justify-center gap-2 mt-4">
-                            <button className="p-2 bg-orange-600 hover:bg-orange-500 text-white rounded-lg transition-colors text-xs">
+                            <a
+                              href={`mailto:${coordinator.email}`}
+                              className="p-2 bg-orange-600 hover:bg-orange-500 text-white rounded-lg transition-colors text-xs"
+                              title={`Email ${coordinator.name}`}
+                            >
                               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                               </svg>
-                            </button>
+                            </a>
                             <button className="p-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg transition-colors text-xs">
                               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -310,16 +234,6 @@ const HouseCouncil = () => {
                   ))}
                 </div>
               </div>
-            </motion.div>
-
-            {/* Clean CTA Section */}
-            <motion.div
-              className="text-center mt-12 sm:mt-16 md:mt-20"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            >
-            
             </motion.div>
           </div>
         </Layout>
