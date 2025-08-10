@@ -443,7 +443,7 @@ const Events = () => {
       {/* Past Events Section */}
       <div className="relative w-full mx-auto mb-8 overflow-visible">
         {/* Content container */}
-        <div className="relative z-10 px-2 md:px-4 py-12">
+        <div className="relative z-10 px-0 md:px-1 py-12">
           {/* Header */}
           <div className="text-center mb-10">
             <h2 className="text-3xl font-bold text-white mb-3">Past Events</h2>
@@ -462,103 +462,179 @@ const Events = () => {
               return acc;
             }, {} as Record<string, Event[]>);
 
-            return Object.entries(categorizedEvents).map(([category, events]) => (
-              <div key={category} className="mb-12">
-                {/* Category Header */}
-                <div className="mb-6">
-                  <h3 className="text-2xl font-bold text-purple-300 mb-2">{category}</h3>
-                  <div className="w-16 h-0.5 bg-purple-500 mb-4"></div>
-                </div>
+            return Object.entries(categorizedEvents).map(([category, events]) => {
+              // Create a component for each category to use hooks
+              const CategoryComponent = () => {
+                const [scrollPosition, setScrollPosition] = useState(0);
+                const scrollContainerRef = useRef<HTMLDivElement>(null);
+                
+                // Calculate if we need navigation arrows
+                const maxVisibleCards = 3;
+                const cardWidth = 280; // minWidth from style
+                const gap = 16; // gap-4 = 1rem = 16px
+                
+                // Get actual container width or use calculated width
+                const getContainerWidth = () => {
+                  if (scrollContainerRef.current) {
+                    return scrollContainerRef.current.clientWidth;
+                  }
+                  return (cardWidth * maxVisibleCards) + (gap * (maxVisibleCards - 1));
+                };
+                
+                const totalWidth = (cardWidth * events.length) + (gap * (events.length - 1));
+                const showNavigation = events.length > maxVisibleCards;
+                
+                const scrollLeft = () => {
+                  if (scrollContainerRef.current) {
+                    const newPosition = Math.max(0, scrollPosition - (cardWidth + gap));
+                    scrollContainerRef.current.scrollTo({
+                      left: newPosition,
+                      behavior: 'smooth'
+                    });
+                    setScrollPosition(newPosition);
+                  }
+                };
+                
+                const scrollRight = () => {
+                  if (scrollContainerRef.current) {
+                    const currentContainerWidth = getContainerWidth();
+                    const maxScroll = Math.max(0, totalWidth - currentContainerWidth);
+                    const newPosition = Math.min(maxScroll, scrollPosition + (cardWidth + gap));
+                    scrollContainerRef.current.scrollTo({
+                      left: newPosition,
+                      behavior: 'smooth'
+                    });
+                    setScrollPosition(newPosition);
+                  }
+                };
 
-                {/* Events Grid with reduced spacing */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-2 md:px-4">
-                  {events.map((event, idx) => {
-                    // Check if event is newly added (within 48 hours)
-                    const isNew = (event as any).createdAt && differenceInHours(new Date(), parseISO((event as any).createdAt)) < 48;
-                    // Calculate row and column for each card
-                    const columns = 3;
-                    const row = Math.floor(idx / columns);
-                    const col = idx % columns;
+                const handleScroll = () => {
+                  if (scrollContainerRef.current) {
+                    setScrollPosition(scrollContainerRef.current.scrollLeft);
+                  }
+                };
 
-                    return (
-                      <div
-                        key={event.id}
-                        className="relative bg-black/30 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 shadow-lg shadow-black/20 transition-all hover:shadow-xl hover:bg-black/40 hover:scale-[1.02] group"
-                      >
-                        {/* Newly Added Badge */}
-                        {isNew && (
-                          <span className="absolute top-3 right-3 px-3 py-1 rounded-full bg-green-500 text-white text-xs font-bold shadow-lg z-10 animate-pulse">
-                            Newly Added
-                          </span>
-                        )}
-                        {/* Left Slide Icon for first column in each row */}
-                        {col === 0 && (
-                          <button
-                            className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-black/60 hover:bg-purple-600/80 text-white rounded-full p-2 shadow transition-colors"
-                            aria-label="Slide Left"
-                            onClick={() => {
-                              // Custom logic for sliding left for this row
-                            }}
-                          >
-                            <FiChevronLeft size={22} />
-                          </button>
-                        )}
-
-                        {/* Right Slide Icon for last column in each row */}
-                        {col === columns - 1 && (idx < row * columns + columns && idx < events.length) && (
-                          <button
-                            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-black/60 hover:bg-purple-600/80 text-white rounded-full p-2 shadow transition-colors"
-                            aria-label="Slide Right"
-                            onClick={() => {
-                              // Custom logic for sliding right for this row
-                            }}
-                          >
-                            <FiChevronRight size={22} />
-                          </button>
-                        )}
-
-                        {/* Event Image */}
-                        <div className="h-72 relative overflow-hidden">
-                          <img
-                            src={event.imageUrl}
-                            alt={event.title}
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                          />
-                          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/70 to-transparent"></div>
-                          <div className="absolute bottom-3 left-3 bg-purple-600/70 px-2.5 py-1 rounded-full text-xs text-white font-medium">
-                            {event.category}
-                          </div>
+                return (
+                  <div className="mb-8">
+                    {/* Individual Category Background Container */}
+                    <div className="relative mx-0 rounded-2xl overflow-hidden">
+                      {/* Background glass effect for each category */}
+                      <div className="absolute inset-0 bg-black/30 backdrop-blur-sm border border-white/10 rounded-2xl shadow-lg shadow-black/20"></div>
+                      
+                      {/* Content container */}
+                      <div className="relative z-10 p-6">
+                        {/* Category Header */}
+                        <div className="mb-6 text-left">
+                          <h3 className="text-2xl font-bold text-purple-300 mb-2">{category}</h3>
+                          <div className="w-16 h-0.5 bg-purple-500"></div>
                         </div>
 
-                        {/* Event Details */}
-                        <div className="p-5">
-                          <h3 className="text-xl font-bold text-white mb-2 group-hover:text-purple-300 transition-colors">
-                            {event.title}
-                          </h3>
-                          <div className="flex flex-wrap gap-3 text-sm mb-4">
-                            <span className="flex items-center text-white/70">
-                              <FiCalendar className="mr-1.5" size={14} />
-                              {event.date}
-                            </span>
-                            <span className="flex items-center text-white/70">
-                              <FiMapPin className="mr-1.5" size={14} />
-                              {event.location}
-                            </span>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <button className="text-sm text-purple-400 hover:text-purple-300 flex items-center transition-colors">
-                              View Details
-                              <FiChevronRight size={16} className="ml-1" />
-                            </button>
-                            <span className="text-xs text-white/50 italic">Event completed</span>
+                        {/* Navigation and Cards Container */}
+                        <div className="relative">
+                        {/* Left Navigation Arrow */}
+                        {showNavigation && scrollPosition > 0 && (
+                          <button
+                            onClick={scrollLeft}
+                            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-black/80 hover:bg-purple-600/80 text-white rounded-full p-3 shadow-lg transition-all duration-200 hover:scale-110"
+                            style={{ marginLeft: '-24px' }}
+                          >
+                            <FiChevronLeft size={24} />
+                          </button>
+                        )}
+
+                        {/* Right Navigation Arrow */}
+                        {showNavigation && scrollPosition < (totalWidth - getContainerWidth()) && (
+                          <button
+                            onClick={scrollRight}
+                            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-black/80 hover:bg-purple-600/80 text-white rounded-full p-3 shadow-lg transition-all duration-200 hover:scale-110"
+                            style={{ marginRight: '-24px' }}
+                          >
+                            <FiChevronRight size={24} />
+                          </button>
+                        )}                          {/* Horizontal Scrolling Container - Hidden scrollbar */}
+                          <div 
+                            ref={scrollContainerRef}
+                            className="overflow-x-auto overflow-y-hidden scrollbar-hide"
+                            onScroll={handleScroll}
+                            style={{ 
+                              scrollbarWidth: 'none',
+                              msOverflowStyle: 'none'
+                            }}
+                          >
+                            <div 
+                              className="flex gap-4"
+                              style={{ 
+                                width: showNavigation ? `${totalWidth}px` : 'max-content',
+                                maxWidth: showNavigation ? 'none' : '100%'
+                              }}
+                            >
+                              {events.map((event) => {
+                                // Check if event is newly added (within 48 hours)
+                                const isNew = (event as any).createdAt && differenceInHours(new Date(), parseISO((event as any).createdAt)) < 48;
+
+                                return (
+                                  <div
+                                    key={event.id}
+                                    className="relative bg-black/40 backdrop-blur-sm rounded-xl overflow-hidden border border-white/20 shadow-lg shadow-black/20 transition-all hover:shadow-xl hover:bg-black/50 hover:scale-[1.02] flex-shrink-0"
+                                    style={{ width: `${cardWidth}px`, minWidth: `${cardWidth}px` }}
+                                  >
+                                    {/* Newly Added Badge */}
+                                    {isNew && (
+                                      <span className="absolute top-3 right-3 px-3 py-1 rounded-full bg-green-500 text-white text-xs font-bold shadow-lg z-10 animate-pulse">
+                                        Newly Added
+                                      </span>
+                                    )}
+
+                                    {/* Event Image */}
+                                    <div className="h-64 relative overflow-hidden">
+                                      <img
+                                        src={event.imageUrl || 'https://via.placeholder.com/280x256?text=No+Image'}
+                                        alt={event.title}
+                                        className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                                      />
+                                      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/70 to-transparent"></div>
+                                      <div className="absolute bottom-3 left-3 bg-purple-600/70 px-2.5 py-1 rounded-full text-xs text-white font-medium">
+                                        {event.category}
+                                      </div>
+                                    </div>
+
+                                    {/* Event Details */}
+                                    <div className="p-4">
+                                      <h3 className="text-lg font-bold text-white mb-2 hover:text-purple-300 transition-colors">
+                                        {event.title}
+                                      </h3>
+                                      <div className="flex flex-wrap gap-3 text-sm mb-4">
+                                        <span className="flex items-center text-white/70">
+                                          <FiCalendar className="mr-1.5" size={14} />
+                                          {event.date}
+                                        </span>
+                                        <span className="flex items-center text-white/70">
+                                          <FiMapPin className="mr-1.5" size={14} />
+                                          {event.location}
+                                        </span>
+                                      </div>
+                                      <div className="flex justify-between items-center">
+                                        <button className="text-sm text-purple-400 hover:text-purple-300 flex items-center transition-colors">
+                                          View Details
+                                          <FiChevronRight size={16} className="ml-1" />
+                                        </button>
+                                        <span className="text-xs text-white/50 italic">Event completed</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    );
-                  })}
-                </div>
-              </div>
-            ));
+                    </div>
+                  </div>
+                );
+              };
+
+              return <CategoryComponent key={category} />;
+            });
           })()}
 
           {/* View More Button */}
