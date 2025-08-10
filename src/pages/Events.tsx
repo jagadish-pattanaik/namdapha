@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FiClock, FiMapPin, FiChevronRight, FiChevronLeft, FiChevronDown, FiChevronUp, FiCalendar } from 'react-icons/fi';
 import Layout from '../components/Layout';
+import { differenceInHours, parseISO } from "date-fns";
 
 interface Event {
   id: number;
@@ -11,6 +12,7 @@ interface Event {
   description: string;
   imageUrl: string;
   category: string;
+  meetLink?: string;
 }
 
 const defaultForm: Partial<Event> = {
@@ -163,11 +165,12 @@ const Events = () => {
               >
                 <div className="flex flex-col md:flex-row">
                   {/* Event Image (left side on desktop) */}
-                  <div className="w-full md:w-1/3 h-48 md:h-auto">
-                    <img 
-                      src={upcomingEvents[0].imageUrl} 
-                      alt={upcomingEvents[0].title} 
-                      className="w-full h-full object-cover"
+                  <div className="w-full md:w-1/3 h-48 md:h-auto flex items-center justify-center bg-black/30 p-0 m-0">
+                    <img
+                      src={upcomingEvents[0].imageUrl}
+                      alt={upcomingEvents[0].title}
+                      className="w-full h-full object-contain"
+                      style={{ background: "#222", borderRadius: "1rem", maxHeight: "12rem" }}
                     />
                   </div>
                   
@@ -192,7 +195,7 @@ const Events = () => {
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-3">
                         <h3 className="text-2xl font-bold text-white">{upcomingEvents[0].title}</h3>
-                        <span className="bg-purple-600/70 px-3 py-1 rounded-full text-sm text-white">
+                        <span className="bg-purple-600/70 px-4 py-1 rounded-full text-xs text-white font-medium flex items-center whitespace-nowrap">
                           {upcomingEvents[0].category}
                         </span>
                       </div>
@@ -213,9 +216,24 @@ const Events = () => {
                       </p>
                       
                       <div className="flex items-center justify-end">
-                        <button className="px-6 py-2 bg-purple-600/80 hover:bg-purple-600 text-white rounded-full transition-colors shadow-md shadow-purple-500/20">
-                          Join Now
-                        </button>
+                        {upcomingEvents[0].meetLink ? (
+                          <a
+                            href={upcomingEvents[0].meetLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-6 py-2 bg-purple-600/80 hover:bg-purple-600 text-white rounded-full transition-colors shadow-md shadow-purple-500/20 font-semibold"
+                          >
+                            Join Now
+                          </a>
+                        ) : (
+                          <button
+                            className="px-6 py-2 bg-gray-400 text-white rounded-full cursor-not-allowed opacity-60"
+                            disabled
+                            title="Meeting link not available"
+                          >
+                            Join Now
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -253,11 +271,12 @@ const Events = () => {
                 >
                   <div className="flex flex-col md:flex-row">
                     {/* Event Image (left side on desktop) */}
-                    <div className="w-full md:w-1/3 h-48 md:h-auto">
-                      <img 
-                        src={currentEvent.imageUrl} 
-                        alt={currentEvent.title} 
-                        className="w-full h-full object-cover"
+                    <div className="w-full md:w-1/3 h-48 md:h-auto flex items-center justify-center bg-black/30 p-0 m-0">
+                      <img
+                        src={currentEvent.imageUrl}
+                        alt={currentEvent.title}
+                        className="w-full h-full object-contain"
+                        style={{ background: "#222", borderRadius: "1rem", maxHeight: "12rem" }}
                       />
                     </div>
                     
@@ -282,7 +301,7 @@ const Events = () => {
                       <div className="flex-1">
                         <div className="flex items-center justify-between mb-3">
                           <h3 className="text-2xl font-bold text-white">{currentEvent.title}</h3>
-                          <span className="bg-purple-600/70 px-3 py-1 rounded-full text-sm text-white">
+                          <span className="bg-purple-600/70 px-4 py-1 rounded-full text-xs text-white font-medium flex items-center whitespace-nowrap">
                             {currentEvent.category}
                           </span>
                         </div>
@@ -303,9 +322,24 @@ const Events = () => {
                         </p>
                         
                         <div className="flex items-center justify-end">
-                          <button className="px-6 py-2 bg-purple-600/80 hover:bg-purple-600 text-white rounded-full transition-colors shadow-md shadow-purple-500/20">
-                            Join Now
-                          </button>
+                          {currentEvent.meetLink ? (
+                            <a
+                              href={currentEvent.meetLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="px-6 py-2 bg-purple-600/80 hover:bg-purple-600 text-white rounded-full transition-colors shadow-md shadow-purple-500/20 font-semibold"
+                            >
+                              Join Now
+                            </a>
+                          ) : (
+                            <button
+                              className="px-6 py-2 bg-gray-400 text-white rounded-full cursor-not-allowed opacity-60"
+                              disabled
+                              title="Meeting link not available"
+                            >
+                              Join Now
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -359,15 +393,30 @@ const Events = () => {
                               <FiMapPin className="mr-1" size={12} />
                               Google Meet
                             </span>
-                            <span className="bg-purple-600/70 px-2 py-0.5 rounded-full text-white">
+                            <span className="bg-purple-600/70 px-4 py-1 rounded-full text-xs text-white font-medium flex items-center whitespace-nowrap">
                               {event.category}
                             </span>
                           </div>
                         </div>
                         
-                        <button className="mt-3 md:mt-0 px-4 py-1.5 bg-purple-600/80 hover:bg-purple-600 text-white text-sm rounded-full transition-colors shadow-sm shadow-purple-500/20 whitespace-nowrap">
-                          Join Now
-                        </button>
+                        {event.meetLink ? (
+                          <a
+                            href={event.meetLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-3 md:mt-0 px-4 py-1.5 bg-purple-600/80 hover:bg-purple-600 text-white text-sm rounded-full transition-colors shadow-sm shadow-purple-500/20 whitespace-nowrap font-semibold"
+                          >
+                            Join Now
+                          </a>
+                        ) : (
+                          <button
+                            className="mt-3 md:mt-0 px-4 py-1.5 bg-gray-400 text-white text-sm rounded-full cursor-not-allowed opacity-60 whitespace-nowrap"
+                            disabled
+                            title="Meeting link not available"
+                          >
+                            Join Now
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -399,7 +448,7 @@ const Events = () => {
       </div>
 
       {/* Past Events Section */}
-      <div className="relative w-full mx-auto mb-8 rounded-3 overflow-visible px-6 md:px-12">
+      <div className="relative w-full mx-auto mb-8 rounded-3 overflow-visible px- md:px-16">
         {/* Background glass effect  */}
         <div className="absolute inset-0 w-full h-full bg-black/40 backdrop-blur-md border border-white/20 shadow-xl shadow-black/30 rounded-none"></div>
         
@@ -418,6 +467,8 @@ const Events = () => {
           {/* Three-column grid for past events, */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full px-0">
             {pastEvents.map((event, idx) => {
+              // Check if event is newly added (within 48 hours)
+              const isNew = event.createdAt && differenceInHours(new Date(), parseISO(event.createdAt)) < 48;
               // Calculate row and column for each card
               const columns = 3;
               const row = Math.floor(idx / columns);
@@ -429,6 +480,12 @@ const Events = () => {
                   key={event.id}
                   className="relative bg-black/30 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 shadow-lg shadow-black/20 transition-all hover:shadow-xl hover:bg-black/40 hover:scale-[1.02] group"
                 >
+                  {/* Newly Added Badge */}
+                  {isNew && (
+                    <span className="absolute top-3 right-3 px-3 py-1 rounded-full bg-green-500 text-white text-xs font-bold shadow-lg z-10 animate-pulse">
+                      Newly Added
+                    </span>
+                  )}
                   {/* Left Slide Icon for first column in each row */}
                   {col === 0 && (
                     <button

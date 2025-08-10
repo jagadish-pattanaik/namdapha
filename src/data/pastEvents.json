@@ -1,91 +1,67 @@
 [
   {
-    "title": "Oppe 2 ",
-    "description": "",
-    "date": "2025-08-09",
-    "time": "22:51",
-    "location": "Google Meet",
-    "category": "Exam",
-    "addedBy": "Shivang Saraswat",
-    "visible": true,
-    "id": 2
-  },
-  {
-    "title": "vxvxvcvxcvcxv",
-    "description": "cxvxv",
-    "date": "2025-07-28",
-    "time": "13:35",
-    "location": "cvxvx",
-    "category": "cxvxv",
-    "addedBy": "Shivang Saraswat",
-    "visible": true,
-    "id": 6
-  },
-  {
-    "title": "c. xc ",
-    "description": "xc x ",
-    "date": "2025-08-05",
-    "time": "03:32",
-    "location": "Google Meet",
-    "category": "xc x",
-    "addedBy": "Shivang Saraswat",
-    "visible": true,
-    "meetLink": " cx x",
-    "id": 7
-  },
-  {
-    "title": "Hacksprint",
-    "description": "",
-    "date": "2025-08-08",
-    "time": "",
-    "location": "Google Meet",
-    "category": "Hackathon",
-    "addedBy": "Shivang Saraswat",
-    "visible": true,
-    "id": 8
-  },
-  {
-    "title": "Cars 3",
-    "description": "",
-    "date": "2025-08-08",
-    "time": "",
-    "location": "Google Meet",
-    "category": "Movies",
-    "addedBy": "Shivang Saraswat",
-    "visible": true,
-    "id": 9
-  },
-  {
-    "title": "Inter House Debate Event",
-    "description": "",
-    "date": "2025-08-06",
-    "time": "",
-    "location": "Google Meet",
-    "category": "Event",
-    "addedBy": "Shivang Saraswat",
-    "visible": true,
-    "id": 10
-  },
-  {
-    "title": "Games",
+    "title": "Inter-house debate",
     "description": "",
     "date": "2025-08-07",
     "time": "",
-    "location": "Google Meet",
-    "category": "Sport",
+    "location": "",
+    "category": "Student Activity",
     "addedBy": "Shivang Saraswat",
     "visible": true,
-    "id": 11
+    "id": 19,
+    "createdAt": "2025-08-10T07:37:20.599Z",
+    "imageUrl": ""
   },
   {
-    "title": "House Event",
-    "description": "zcvsd",
+    "title": "HackSprint",
+    "description": "",
+    "date": "2025-08-04",
+    "time": "",
+    "location": "Google Meet",
+    "category": "Student Activity",
+    "addedBy": "Shivang Saraswat",
+    "visible": true,
+    "id": 18,
+    "createdAt": "2025-08-10T07:35:21.144Z",
+    "imageUrl": ""
+  },
+  {
+    "title": "smart",
+    "description": "",
+    "date": "2025-08-09",
+    "time": "",
+    "location": "Google Meet",
+    "category": "Paradox",
+    "addedBy": "Shivang Saraswat",
+    "visible": true,
+    "imageUrl": "https://via.placeholder.com/600x400?text=Uploaded+Image",
+    "id": 17,
+    "createdAt": "2025-08-09T20:12:38.675Z",
+    "imagePoster": {}
+  },
+  {
+    "title": "Poetry Competition",
+    "description": "",
     "date": "2025-08-08",
     "time": "",
     "location": "Google Meet",
-    "category": "Fun",
+    "category": "Student Activity",
     "addedBy": "Shivang Saraswat",
     "visible": true,
-    "id": 12
+    "id": 14,
+    "createdAt": "2025-08-09T19:25:00.929Z",
+    "imageUrl": ""
+  },
+  {
+    "title": "testingggg",
+    "description": "",
+    "date": "2025-08-10",
+    "time": "",
+    "location": "Google Meet",
+    "category": "Academics",
+    "addedBy": "Shivang Saraswat",
+    "visible": true,
+    "id": 16,
+    "createdAt": "2025-08-09T19:35:16.781Z"
   }
 ]

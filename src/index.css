@@ -8,7 +8,7 @@
   html {
     font-family: 'Inter', system-ui, sans-serif;
   }
-  
+
   body {
     @apply antialiased;
   }
@@ -81,6 +81,9 @@
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+  .theme {
+    --animate-meteor: meteor 5s linear infinite;
+  }
 }
 
 .font-poppins {
@@ -123,6 +126,11 @@
   100% { transform: translateX(-50%); }
 }
 
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
 .animate-fadeIn {
   animation: fadeIn 1s ease-out forwards;
 }
@@ -137,6 +145,10 @@
 
 .animate-scroll {
   animation: scroll 10s linear infinite;
+}
+
+.animate-blink {
+  animation: blink 1.2s infinite;
 }
 
 /* Enhanced shadow utilities */
@@ -155,13 +167,27 @@
   box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.5), 0 25px 50px -12px rgba(139, 92, 246, 0.3);
 }
 
-
-
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@theme inline {
+  @keyframes meteor {
+  0% {
+    transform: rotate(var(--angle)) translateX(0);
+    opacity: 1;
+    }
+  70% {
+    opacity: 1;
+    }
+  100% {
+    transform: rotate(var(--angle)) translateX(-500px);
+    opacity: 0;
+    }
   }
 }

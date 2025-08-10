@@ -28,7 +28,14 @@ app.get('/api/past-events', (req, res) => {
 });
 
 app.post('/api/past-events', (req, res) => {
-  fs.writeFileSync('./src/data/pastEvents.json', JSON.stringify(req.body, null, 2));
+  // Ensure each new event has a createdAt field if missing
+  const events = req.body.map(ev => {
+    if (!ev.createdAt) {
+      return { ...ev, createdAt: new Date().toISOString() };
+    }
+    return ev;
+  });
+  fs.writeFileSync('./src/data/pastEvents.json', JSON.stringify(events, null, 2));
   res.json({ success: true });
 });
 

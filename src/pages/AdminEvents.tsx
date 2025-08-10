@@ -3,7 +3,7 @@ import CustomSidebar from "../components/CustomSidebar";
 import { Card, CardHeader, CardTitle, CardContent } from "../components/ui/card";
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell, TableCaption } from "../components/ui/table";
 import { Button } from "../components/ui/button";
-import { toast } from "sonner";
+import { CheckCircle, XCircle, Edit2, Trash2 } from "lucide-react";
 import { useUser } from "@clerk/clerk-react";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "../components/ui/select";
 import {
@@ -27,6 +27,24 @@ import { DndContext, closestCenter } from "@dnd-kit/core";
 import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
+import { differenceInHours, parseISO } from "date-fns";
+import { toast } from "sonner";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+
+const glassToast = (message: string, type: "success" | "error" | "info" = "info") => {
+  toast(
+    <div className={`flex items-center gap-3 px-4 py-3 rounded-xl backdrop-blur-lg bg-white/60 border shadow-lg border-purple-200/40`}>
+      {type === "success" && <CheckCircle className="text-green-500" size={22} />}
+      {type === "error" && <XCircle className="text-red-500" size={22} />}
+      {type === "info" && <Edit2 className="text-purple-500" size={22} />}
+      <span className={`font-semibold text-base ${type === "error" ? "text-red-700" : type === "success" ? "text-green-700" : "text-purple-700"}`}>
+        {message}
+      </span>
+    </div>,
+    { duration: 2500 }
+  );
+};
 
 type Event = {
   id: number;
@@ -38,6 +56,7 @@ type Event = {
   category: string;
   addedBy: string;
   visible?: boolean;
+  createdAt?: string; // Add createdAt here
 };
 
 const defaultForm: Partial<Event> = {
@@ -57,7 +76,7 @@ const AdminEvents: React.FC = () => {
   const [pastEvents, setPastEvents] = useState<Event[]>([]);
   const [form, setForm] = useState<Partial<Event>>(defaultForm);
   const [editingId, setEditingId] = useState<number | null>(null);
-  const [section, setSection] = useState<"upcoming" | "past">("upcoming");
+  const [section, setSection] = useState<"" | "upcoming" | "past">("");
   const [showConfirm, setShowConfirm] = useState<{ open: boolean; id: number | null; type: "upcoming" | "past" | null }>({ open: false, id: null, type: null });
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const disabledInputRef = useRef<HTMLInputElement>(null);
@@ -122,23 +141,32 @@ const AdminEvents: React.FC = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updated),
     });
-    toast("Visibility updated!");
+    glassToast("Visibility updated!", "success");
   };
 
+  // When adding a new past event, add a createdAt timestamp
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     let updatedEvents;
     let actionType;
+    let imageUrl = form.imageUrl || "";
+    if (form.imagePoster && typeof form.imagePoster !== "string") {
+      // Upload the image to your server or a cloud service here and get the URL
+      // For demo, we'll just use a placeholder
+      imageUrl = "https://via.placeholder.com/600x400?text=Uploaded+Image";
+    }
+
     if (section === "upcoming") {
       const addedBy = user?.fullName || user?.emailAddress || "Unknown";
       if (editingId !== null) {
         updatedEvents = upcomingEvents.map(ev =>
-          ev.id === editingId ? { ...ev, ...form, id: editingId, addedBy } : ev
+          ev.id === editingId ? { ...ev, ...form, id: editingId, addedBy, imageUrl } : ev
         );
         actionType = "updated";
       } else {
         const newId = upcomingEvents.length ? Math.max(...upcomingEvents.map(ev => ev.id)) + 1 : 1;
-        updatedEvents = [...upcomingEvents, { ...form, id: newId, addedBy } as Event];
+        // Add new event at the start of the array
+        updatedEvents = [{ ...form, id: newId, addedBy, imageUrl } as Event, ...upcomingEvents];
         actionType = "added";
       }
       fetch("http://localhost:5050/api/upcoming-events", {
@@ -149,18 +177,22 @@ const AdminEvents: React.FC = () => {
         setUpcomingEvents(updatedEvents);
         setForm(defaultForm);
         setEditingId(null);
-        toast(`Upcoming event ${actionType}!`);
+        glassToast(`Upcoming event ${actionType}!`, "success");
       });
     } else {
       const addedBy = user?.fullName || user?.emailAddress || "Unknown";
       if (editingId !== null) {
         updatedEvents = pastEvents.map(ev =>
-          ev.id === editingId ? { ...ev, ...form, id: editingId, addedBy } : ev
+          ev.id === editingId ? { ...ev, ...form, id: editingId, addedBy, imageUrl } : ev
         );
         actionType = "updated";
       } else {
         const newId = pastEvents.length ? Math.max(...pastEvents.map(ev => ev.id)) + 1 : 1;
-        updatedEvents = [...pastEvents, { ...form, id: newId, addedBy } as Event];
+        // Add new event at the start of the array with createdAt timestamp
+        updatedEvents = [
+          { ...form, id: newId, addedBy, createdAt: new Date().toISOString(), imageUrl } as Event,
+          ...pastEvents,
+        ];
         actionType = "added";
       }
       fetch("http://localhost:5050/api/past-events", {
@@ -171,7 +203,7 @@ const AdminEvents: React.FC = () => {
         setPastEvents(updatedEvents);
         setForm(defaultForm);
         setEditingId(null);
-        toast(`Past event ${actionType}!`);
+        glassToast(`Past event ${actionType}!`, "success");
       });
     }
   };
@@ -180,6 +212,7 @@ const AdminEvents: React.FC = () => {
     setForm(event);
     setEditingId(event.id);
     setSection(type);
+    glassToast("Edit mode activated!", "info");
   };
 
   // Update handleDelete to use confirmation dialog
@@ -199,7 +232,7 @@ const AdminEvents: React.FC = () => {
           setUpcomingEvents(updatedEvents);
           setForm(defaultForm);
           setEditingId(null);
-          toast("Upcoming event deleted!");
+          glassToast("Upcoming event deleted!", "error");
           setShowConfirm({ open: false, id: null, type: null });
         });
       } else {
@@ -212,7 +245,7 @@ const AdminEvents: React.FC = () => {
           setPastEvents(updatedEvents);
           setForm(defaultForm);
           setEditingId(null);
-          toast("Past event deleted!");
+          glassToast("Past event deleted!", "error");
           setShowConfirm({ open: false, id: null, type: null });
         });
       }
@@ -247,7 +280,7 @@ const AdminEvents: React.FC = () => {
   };
 
   const handleDisabledFieldClick = (field: string) => {
-    toast(`${field} is disabled for Past Event.`);
+    glassToast(`${field} is disabled for Past Event.`, "info");
   };
 
   return (
@@ -255,20 +288,25 @@ const AdminEvents: React.FC = () => {
       <CustomSidebar collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} />
       <main className={`flex-1 flex justify-start items-start py-12 px-2 transition-all duration-500 ${sidebarCollapsed ? "ml-24" : "ml-72"}`}>
         <div className="w-full max-w-7xl">
-          <h1 className="text-3xl font-extrabold mb-8 text-muted-foreground text-left">Events Admin</h1>
+          <h1 className="text-3xl font-extrabold mb-8 text-muted-foreground text-left">Events</h1>
           
           {/* Add/Edit Event Section */}
           <div className="rounded-2xl border border-border bg-white/80 p-6 sm:p-10 w-full mb-8">
             <h2 className="text-xl font-bold mb-4 text-muted-foreground">
-              {section === "upcoming" ? "Add / Edit Upcoming Event" : "Add / Edit Past Event"}
+              {section === ""
+                ? "Add / Edit Events"
+                : section === "upcoming"
+                  ? "Add / Edit Upcoming Event"
+                  : "Add / Edit Past Event"
+              }
             </h2>
             <form onSubmit={handleSave}>
               <div className="grid grid-cols-1 gap-4 mb-4">
                 {/* Event Type Selector (half width, no default selected) */}
                 <div className="grid grid-cols-2 gap-4">
                   <Select
-                    value={section || ""}
-                    onValueChange={value => setSection(value as "upcoming" | "past")}
+                    value={section}
+                    onValueChange={value => setSection(value as "" | "upcoming" | "past")}
                   >
                     <SelectTrigger className="w-full p-2 rounded bg-background border border-border text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500 transition">
                       <SelectValue placeholder="Select event type" />
@@ -282,134 +320,175 @@ const AdminEvents: React.FC = () => {
                   <div />
                 </div>
 
-                {/* Title (half width) */}
-                <div className="grid grid-cols-2 gap-4">
-                  <input
-                    name="title"
-                    value={form.title || ""}
-                    onChange={handleChange}
-                    placeholder="Title"
-                    className="w-full p-2 rounded bg-background border border-border text-muted-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
-                    required
-                  />
-                  {/* Empty cell for alignment, or you can add something else here */}
-                  <div />
+                {/* Title & Meet Link (horizontal row with labels) */}
+                <div className="flex gap-4">
+                  <div className="flex flex-col flex-1">
+                    <Label htmlFor="title" className="mb-1">Event Title</Label>
+                    <Input
+                      id="title"
+                      name="title"
+                      value={form.title || ""}
+                      onChange={handleChange}
+                      placeholder="Title"
+                      required
+                    />
+                  </div>
+                  <div className="flex flex-col flex-1">
+                    <Label htmlFor="meetLink" className="mb-1">G-Meet Link</Label>
+                    <Input
+                      id="meetLink"
+                      name="meetLink"
+                      value={form.meetLink || ""}
+                      onChange={handleChange}
+                      placeholder="Meet Link"
+                      disabled={section === "past"}
+                      onClick={section === "past" ? () => handleDisabledFieldClick("Meet Link") : undefined}
+                    />
+                  </div>
                 </div>
 
-                {/* Date, Platform, Time, Category in a single row */}
-                <div className="grid grid-cols-4 gap-4">
-                  {/* Date Picker */}
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        data-empty={!form.date}
-                        className="data-[empty=true]:text-muted-foreground w-full justify-start text-left font-normal"
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {form.date
-                          ? format(new Date(form.date), "PPP")
-                          : <span>Pick a date</span>}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
-                      <Calendar
-                        mode="single"
-                        selected={form.date ? new Date(form.date) : undefined}
-                        onSelect={date =>
-                          setForm({
-                            ...form,
-                            date: date
-                              ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`
-                              : ""
-                          })
-                        }
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-
-                  {/* Platform Selector */}
-                  <Select
-                    value={form.location || ""}
-                    onValueChange={value => setForm({ ...form, location: value })}
-                  >
-                    <SelectTrigger className="w-full p-2 rounded bg-background border border-border text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500 transition">
-                      <SelectValue placeholder="Select platform" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Google Meet">Google Meet</SelectItem>
-                      <SelectItem value="Zoom">Zoom</SelectItem>
-                      <SelectItem value="Microsoft Teams">Microsoft Teams</SelectItem>
-                      <SelectItem value="Physical Location">Physical Location</SelectItem>
-                      <SelectItem value="Other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
-
-                  {/* Time Input */}
-                  <input
-                    name="time"
-                    type="time"
-                    value={form.time || ""}
-                    onChange={handleChange}
-                    placeholder="Time"
-                    className={`w-full p-2 rounded border border-border text-muted-foreground placeholder:text-muted-foreground focus:outline-none transition
-                      ${section === "past"
-                        ? "bg-gray-200 cursor-not-allowed opacity-70"
-                        : "bg-background focus:ring-2 focus:ring-purple-500"
-                      }`}
-                    disabled={section === "past"}
-                    onClick={section === "past" ? () => handleDisabledFieldClick("Time") : undefined}
-                  />
-
-                  {/* Category Input */}
-                  <input
-                    name="category"
-                    value={form.category || ""}
-                    onChange={handleChange}
-                    placeholder="Category"
-                    className="w-full p-2 rounded bg-background border border-border text-muted-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
-                    required
-                  />
+                {/* Date, Starting Time, Ending Time, Platform, Category (single row, each with label) */}
+                <div className="flex gap-4 mt-4">
+                  <div className="flex flex-col flex-1">
+                    <Label className="mb-1">Date</Label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          data-empty={!form.date}
+                          className="data-[empty=true]:text-muted-foreground w-full justify-start text-left font-normal"
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {form.date
+                            ? format(new Date(form.date), "PPP")
+                            : <span>Pick a date</span>}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0">
+                        <Calendar
+                          mode="single"
+                          selected={form.date ? new Date(form.date) : undefined}
+                          onSelect={date =>
+                            setForm({
+                              ...form,
+                              date: date
+                                ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`
+                                : ""
+                            })
+                          }
+                          initialFocus
+                          disabled={section === "past"
+                            ? {
+                                after: new Date(),
+                              }
+                            : undefined
+                          }
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  {/* Starting Time input */}
+                  <div className="flex flex-col flex-1">
+                    <Label htmlFor="time" className="mb-1">Starting Time</Label>
+                    <Input
+                      id="time"
+                      name="time"
+                      type="time"
+                      value={form.time || ""}
+                      onChange={handleChange}
+                      placeholder="Starting Time"
+                      disabled={section === "past"}
+                      onClick={section === "past" ? () => handleDisabledFieldClick("Starting Time") : undefined}
+                    />
+                  </div>
+                  {/* Ending Time input */}
+                  <div className="flex flex-col flex-1">
+                    <Label htmlFor="endTime" className="mb-1">Ending Time</Label>
+                    <Input
+                      id="endTime"
+                      name="endTime"
+                      type="time"
+                      value={form.endTime || ""}
+                      onChange={handleChange}
+                      placeholder="Ending Time"
+                      disabled={section === "past"}
+                      onClick={section === "past" ? () => handleDisabledFieldClick("Ending Time") : undefined}
+                    />
+                  </div>
+                  <div className="flex flex-col flex-1">
+                    <Label className="mb-1">Platform</Label>
+                    <Select
+                      value={form.location || ""}
+                      onValueChange={value => setForm({ ...form, location: value })}
+                    >
+                      <SelectTrigger className="w-full p-2 rounded bg-background border border-border text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500 transition">
+                        <SelectValue placeholder="Select platform" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Google Meet">Google Meet</SelectItem>
+                        <SelectItem value="Zoom">Zoom</SelectItem>
+                        <SelectItem value="Microsoft Teams">Microsoft Teams</SelectItem>
+                        <SelectItem value="Physical Location">Physical Location</SelectItem>
+                        <SelectItem value="Other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="flex flex-col flex-1">
+                    <Label className="mb-1">Category</Label>
+                    <Select
+                      value={form.category || ""}
+                      onValueChange={value => setForm({ ...form, category: value })}
+                    >
+                      <SelectTrigger className="w-full p-2 rounded bg-background border border-border text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500 transition">
+                        <SelectValue placeholder="Select category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Paradox">Paradox</SelectItem>
+                        <SelectItem value="Academics">Academics</SelectItem>
+                        <SelectItem value="Student Activity">Student Activity</SelectItem>
+                        <SelectItem value="Guest Speaker Sessions">Guest Speaker Sessions</SelectItem>
+                        <SelectItem value="Revision Sessions">Revision Sessions</SelectItem>
+                        <SelectItem value="Offline Meetups">Offline Meetups</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
-                {/* Image Poster and Meet Link in a single row */}
-                <div className="grid grid-cols-2 gap-4">
-                  {/* Image Poster Upload */}
-                  <input
-                    type="file"
-                    name="imagePoster"
-                    accept="image/*"
-                    onChange={e => setForm({ ...form, imagePoster: e.target.files?.[0] })}
-                    className="w-full p-2 rounded bg-background border border-border text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
-                    placeholder="Upload poster thumbnail"
-                  />
-
-                  {/* Meet Link */}
-                  <input
-                    name="meetLink"
-                    value={form.meetLink || ""}
-                    onChange={handleChange}
-                    placeholder="Meet Link"
-                    className={`w-full p-2 rounded border border-border text-muted-foreground placeholder:text-muted-foreground focus:outline-none transition
-                      ${section === "past"
-                        ? "bg-gray-200 cursor-not-allowed opacity-70"
-                        : "bg-background focus:ring-2 focus:ring-purple-500"
-                      }`}
-                    disabled={section === "past"}
-                    onClick={section === "past" ? () => handleDisabledFieldClick("Meet Link") : undefined}
-                  />
+                {/* Poster Upload and Link in a single horizontal line with labels and "or" */}
+                <div className="flex items-center gap-4 mt-4">
+                  <div className="flex flex-col flex-1">
+                    <Label className="mb-1">Upload Event Poster</Label>
+                    <Input
+                      type="file"
+                      name="imagePoster"
+                      accept="image/*"
+                      onChange={e => setForm({ ...form, imagePoster: e.target.files?.[0] })}
+                      placeholder="Upload poster thumbnail"
+                    />
+                  </div>
+                  <span className="mx-2 font-semibold text-muted-foreground">or</span>
+                  <div className="flex flex-col flex-1">
+                    <Label className="mb-1">Paste Event Poster URL</Label>
+                    <Input
+                      name="imageUrl"
+                      value={form.imageUrl || ""}
+                      onChange={handleChange}
+                      placeholder="Paste image link (URL)"
+                    />
+                  </div>
                 </div>
 
                 {/* Description (full width) */}
-                <Textarea
-                  name="description"
-                  value={form.description || ""}
-                  onChange={handleChange}
-                  placeholder="Description"
-                  className="w-full p-2 rounded bg-background border border-border text-muted-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
-                  rows={2}
-                />
+                <div className="flex flex-col mt-4">
+                  <Label className="mb-1">Description</Label>
+                  <Textarea
+                    name="description"
+                    value={form.description || ""}
+                    onChange={handleChange}
+                    placeholder="Description"
+                    rows={2}
+                  />
+                </div>
               </div>
               <div className="flex gap-2">
                 <Button type="submit" className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-4 py-2 rounded font-bold shadow hover:scale-105 transition">
@@ -495,7 +574,7 @@ const AdminEvents: React.FC = () => {
                                         headers: { "Content-Type": "application/json" },
                                         body: JSON.stringify(updated),
                                       });
-                                      toast("Visibility updated!");
+                                      glassToast("Visibility updated!", "success");
                                     }}
                                     className="accent-purple-600 w-5 h-5 mb-1"
                                   />
@@ -584,85 +663,94 @@ const AdminEvents: React.FC = () => {
                 ) : (
                   <DndContext collisionDetection={closestCenter} onDragEnd={e => handleDragEnd(e, "past")}>
                     <SortableContext items={pastEvents.map(ev => ev.id)} strategy={verticalListSortingStrategy}>
-                      {pastEvents.map(event => (
-                        <SortableRow key={event.id} id={event.id}>
-                          {({ attributes, listeners }) => (
-                            <>
-                              <TableCell className="flex items-center">
-                                <span
-                                  {...attributes}
-                                  {...listeners}
-                                  className="mr-2 cursor-grab active:cursor-grabbing text-muted-foreground hover:text-purple-600 transition-colors"
-                                  title="Drag to reorder"
-                                >
-                                  <GripVertical size={16} />
-                                </span>
-                                {event.title}
-                              </TableCell>
-                              <TableCell>{event.date}</TableCell>
-                              <TableCell>{event.time}</TableCell>
-                              <TableCell>{event.location}</TableCell>
-                              <TableCell>{event.description}</TableCell>
-                              <TableCell>{event.category}</TableCell>
-                              <TableCell>{event.addedBy}</TableCell> {/* Add this */}
-                              <TableCell className="text-center" style={{ width: 90, minWidth: 90 }}>
-                                <label className="flex flex-col items-center justify-center cursor-pointer">
-                                  <input
-                                    type="checkbox"
-                                    checked={event.visible !== false}
-                                    onChange={() => handleToggleVisible(event.id)}
-                                    className="accent-purple-600 w-5 h-5 mb-1"
-                                  />
-                                </label>
-                              </TableCell>
-                              <TableCell style={{ width: 140, minWidth: 140 }}>
-                                <div className="flex gap-2">
-                                  <Button
-                                    size="sm"
-                                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded font-semibold transition"
-                                    onClick={() => handleEdit(event, "past")}
+                      {pastEvents.map(event => {
+                        // Check if event is newly added (within 48 hours)
+                        const isNew = event.createdAt && differenceInHours(new Date(), parseISO(event.createdAt)) < 48;
+                        return (
+                          <SortableRow key={event.id} id={event.id}>
+                            {({ attributes, listeners }) => (
+                              <>
+                                <TableCell className="flex items-center">
+                                  <span
+                                    {...attributes}
+                                    {...listeners}
+                                    className="mr-2 cursor-grab active:cursor-grabbing text-muted-foreground hover:text-purple-600 transition-colors"
+                                    title="Drag to reorder"
                                   >
-                                    Edit
-                                  </Button>
-                                  <AlertDialog>
-                                    <AlertDialogTrigger asChild>
-                                      <Button
-                                        size="sm"
-                                        className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded font-semibold transition"
-                                        onClick={() => handleDelete(event.id, "past")}
-                                      >
-                                        Delete
-                                      </Button>
-                                    </AlertDialogTrigger>
-                                    <AlertDialogContent open={showConfirm.open && showConfirm.id === event.id && showConfirm.type === "past"}>
-                                      <AlertDialogHeader>
-                                        <AlertDialogTitle className="text-red-600">Confirm Delete</AlertDialogTitle>
-                                        <AlertDialogDescription className="text-muted-foreground">
-                                          Are you sure you want to delete this event? This action cannot be undone.
-                                        </AlertDialogDescription>
-                                      </AlertDialogHeader>
-                                      <AlertDialogFooter>
-                                        <AlertDialogCancel
-                                          className="bg-muted text-muted-foreground hover:bg-gray-200 px-4 py-2 rounded font-semibold transition"
-                                          onClick={() => setShowConfirm({ open: false, id: null, type: null })}
+                                    <GripVertical size={16} />
+                                  </span>
+                                  {event.title}
+                                  {isNew && (
+                                    <span className="ml-2 px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-semibold border border-green-300 animate-pulse animate-blink">
+                                      Newly Added
+                                    </span>
+                                  )}
+                                </TableCell>
+                                <TableCell>{event.date}</TableCell>
+                                <TableCell>{event.time}</TableCell>
+                                <TableCell>{event.location}</TableCell>
+                                <TableCell>{event.description}</TableCell>
+                                <TableCell>{event.category}</TableCell>
+                                <TableCell>{event.addedBy}</TableCell> {/* Add this */}
+                                <TableCell className="text-center" style={{ width: 90, minWidth: 90 }}>
+                                  <label className="flex flex-col items-center justify-center cursor-pointer">
+                                    <input
+                                      type="checkbox"
+                                      checked={event.visible !== false}
+                                      onChange={() => handleToggleVisible(event.id)}
+                                      className="accent-purple-600 w-5 h-5 mb-1"
+                                    />
+                                  </label>
+                                </TableCell>
+                                <TableCell style={{ width: 140, minWidth: 140 }}>
+                                  <div className="flex gap-2">
+                                    <Button
+                                      size="sm"
+                                      className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded font-semibold transition"
+                                      onClick={() => handleEdit(event, "past")}
+                                    >
+                                      Edit
+                                    </Button>
+                                    <AlertDialog>
+                                      <AlertDialogTrigger asChild>
+                                        <Button
+                                          size="sm"
+                                          className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded font-semibold transition"
+                                          onClick={() => handleDelete(event.id, "past")}
                                         >
-                                          Cancel
-                                        </AlertDialogCancel>
-                                        <AlertDialogAction
-                                          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded font-semibold transition"
-                                          onClick={confirmDelete}
-                                        >
-                                          Yes, Delete
-                                        </AlertDialogAction>
-                                      </AlertDialogFooter>
-                                    </AlertDialogContent>
-                                  </AlertDialog>
-                                </div>
-                              </TableCell>
-                            </>
-                          )}
-                        </SortableRow>
-                      ))}
+                                          Delete
+                                        </Button>
+                                      </AlertDialogTrigger>
+                                      <AlertDialogContent open={showConfirm.open && showConfirm.id === event.id && showConfirm.type === "past"}>
+                                        <AlertDialogHeader>
+                                          <AlertDialogTitle className="text-red-600">Confirm Delete</AlertDialogTitle>
+                                          <AlertDialogDescription className="text-muted-foreground">
+                                            Are you sure you want to delete this event? This action cannot be undone.
+                                          </AlertDialogDescription>
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter>
+                                          <AlertDialogCancel
+                                            className="bg-muted text-muted-foreground hover:bg-gray-200 px-4 py-2 rounded font-semibold transition"
+                                            onClick={() => setShowConfirm({ open: false, id: null, type: null })}
+                                          >
+                                            Cancel
+                                          </AlertDialogCancel>
+                                          <AlertDialogAction
+                                            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded font-semibold transition"
+                                            onClick={confirmDelete}
+                                          >
+                                            Yes, Delete
+                                          </AlertDialogAction>
+                                        </AlertDialogFooter>
+                                      </AlertDialogContent>
+                                    </AlertDialog>
+                                  </div>
+                                </TableCell>
+                              </>
+                            )}
+                          </SortableRow>
+                        );
+                      })}
                     </SortableContext>
                   </DndContext>
                 )}
@@ -696,3 +784,4 @@ const SortableRow: React.FC<{ id: number; children: (p: SortableRowRenderProps) 
     </TableRow>
   );
 };
+

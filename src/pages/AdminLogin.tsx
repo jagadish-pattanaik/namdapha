@@ -1,6 +1,7 @@
 import React from "react";
 import { SignIn, useUser } from "@clerk/clerk-react";
 import { Navigate } from "react-router-dom";
+import { Meteors } from "../components/magicui/meteors";
 
 const AdminLogin: React.FC = () => {
   const { isSignedIn } = useUser();
@@ -10,9 +11,13 @@ const AdminLogin: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-purple-100 via-white to-purple-200">
-      {/* Left Section */}
-      <div className="flex flex-col justify-center items-center w-full md:w-1/2 px-6 py-10 md:px-10 md:py-16 bg-white/60 backdrop-blur-lg">
+    <div className="min-h-screen w-full flex flex-col md:flex-row bg-white relative overflow-hidden">
+      {/* Meteors animation as full-page background */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
+        <Meteors /> {/* Black meteors */}
+      </div>
+      {/* Main content above animation */}
+      <div className="flex flex-col justify-center items-center w-full md:w-1/2 px-6 py-10 md:px-10 md:py-16 relative z-10">
         <img
           src="https://res.cloudinary.com/dogq9gvo8/image/upload/v1754390919/1000073005-modified_a0ou2c.png"
           alt="Admin Logo"
@@ -25,8 +30,7 @@ const AdminLogin: React.FC = () => {
           Welcome to the admin panel. Please sign in to manage events, resources, and users.
         </p>
       </div>
-      {/* Right Section */}
-      <div className="w-full md:w-1/2 flex flex-col justify-center items-center px-4 py-8 md:px-6 md:py-0">
+      <div className="w-full md:w-1/2 flex flex-col justify-center items-center px-4 py-8 md:px-6 md:py-0 relative z-10">
         <div className="bg-white/80 rounded-2xl shadow-xl p-6 md:p-8 w-full max-w-md backdrop-blur-lg">
           <SignIn
             path="/admin"

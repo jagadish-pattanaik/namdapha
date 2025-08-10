@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/clerk-react";
-import { Toaster } from "./components/ui/toaster"; // Adjust path if needed
+import { Toaster } from "sonner";
 import LandingPage from './pages/LandingPage';
 import About from './pages/About';
 import ImpLinks from './pages/ImpLinks';
@@ -55,7 +55,7 @@ function App() {
         <Route path="/admin/events" element={<AdminEvents />} />
         <Route path="/admin/settings" element={<AdminSettings />} />
       </Routes>
-      <Toaster />
+      <Toaster richColors position="top-right" />
     </>
   );
 }
